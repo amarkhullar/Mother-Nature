@@ -1,0 +1,10 @@
+Library/metadata/*
+Library/PackageCache/*
+Library/ScriptAssemblies/*
+Library/ShaderCache/*
+Library/StateCache/*
+*.log
+Temp/*
+.vs/Assembly-CShapr/xs/UserPrefs.xml
+.goutput
+obj/Debug/*
