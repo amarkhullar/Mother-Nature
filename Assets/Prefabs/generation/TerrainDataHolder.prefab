@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8887884683286088167
+--- !u!1 &5843705339617622099
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7222073137451773738}
-  - component: {fileID: 2321518195109801391}
+  - component: {fileID: 824350462719338005}
+  - component: {fileID: 3064223506534841488}
   m_Layer: 0
   m_Name: TerrainDataHolder
   m_TagString: Untagged
@@ -17,171 +17,97 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7222073137451773738
+--- !u!4 &824350462719338005
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8887884683286088167}
+  m_GameObject: {fileID: 5843705339617622099}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.5624671, y: -8.817521, z: -11.256588}
+  m_LocalPosition: {x: 69.913635, y: 181.3893, z: 245.69884}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2321518195109801391
+--- !u!114 &3064223506534841488
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8887884683286088167}
+  m_GameObject: {fileID: 5843705339617622099}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d535ee6d60d1442ffbcc6ce5b95e68e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  terrainsTypes:
+  terrainTypes:
   - name: Water
-    heightCutoff: 0.3
-    spawnableObject: {fileID: 0}
-    heightMapping:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0.2506485
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 1
-        value: 0.2506485
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 0
-    color: {r: 0, g: 0.9234297, b: 1, a: 0}
-  - name: Flatland
-    heightCutoff: 0.5
-    spawnableObject: {fileID: 0}
-    heightMapping:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0.29999876
-        value: 0.24998984
-        inSlope: 0.5008777
-        outSlope: 0.5008777
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.50000036
-        value: 0.35016617
-        inSlope: 0.5008777
-        outSlope: 0.5008777
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 0
-    color: {r: 0, g: 0.9339623, b: 0.08143632, a: 0}
-  - name: Forest
-    heightCutoff: 0.6
-    spawnableObject: {fileID: 6333831768325584676, guid: 8cdb72732320f6ae8a609e69882504a8,
-      type: 3}
-    heightMapping:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0.35024643
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 1
-        value: 0.35024643
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 0
-    color: {r: 0.022051785, g: 0.7264151, b: 0, a: 0}
-  - name: Hill
-    heightCutoff: 0.8
-    spawnableObject: {fileID: 0}
-    heightMapping:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0.5980034
-        value: 0.34960938
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 0.80078125
-        value: 0.9273071
-        inSlope: 2
-        outSlope: 2
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 0
-    color: {r: 0.5188679, g: 0.3164614, b: 0, a: 0}
-  - name: Mountain
+    heightCutoff: 0.31
+    heightScale: 1
+    heightShift: 0
+    flat: 1
+    heatCutoffs: []
+    spawnableResource: []
+    color:
+    - {r: 0, g: 0.8247895, b: 1, a: 0}
+  - name: Coast
+    heightCutoff: 0.32
+    heightScale: 1
+    heightShift: 0
+    flat: 0
+    heatCutoffs: []
+    spawnableResource: []
+    color:
+    - {r: 1, g: 0.96657693, b: 0, a: 0}
+  - name: Plains
+    heightCutoff: 0.55
+    heightScale: 5
+    heightShift: 0.45
+    flat: 0
+    heatCutoffs:
+    - 0.35
+    - 0.5
+    - 0.7
+    - 1
+    spawnableResource:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: -927199367670048503, guid: 4ed4887c49687b503b3552e32ba44ddb, type: 3}
+    - {fileID: -927199367670048503, guid: 4ed4887c49687b503b3552e32ba44ddb, type: 3}
+    color:
+    - {r: 1, g: 0.7130058, b: 0, a: 0}
+    - {r: 0, g: 1, b: 0.008504152, a: 0}
+    - {r: 0.011764708, g: 0.7254902, b: 0.03328825, a: 0}
+    - {r: 0.69900316, g: 0.7924528, b: 0.7149729, a: 0}
+  - name: Hills
+    heightCutoff: 0.65
+    heightScale: 20
+    heightShift: -1.4
+    flat: 0
+    heatCutoffs:
+    - 0.2
+    - 0.5
+    - 0.8
+    - 1
+    spawnableResource:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: -927199367670048503, guid: 4ed4887c49687b503b3552e32ba44ddb, type: 3}
+    - {fileID: -927199367670048503, guid: 4ed4887c49687b503b3552e32ba44ddb, type: 3}
+    color:
+    - {r: 0.8301887, g: 0.81875014, b: 0.30936277, a: 0}
+    - {r: 0.28782484, g: 0.7264151, b: 0.35245, a: 0}
+    - {r: 0.26633143, g: 0.4245283, b: 0.295288, a: 0}
+    - {r: 0.6698113, g: 0.6698113, b: 0.6698113, a: 0}
+  - name: Mountains
     heightCutoff: 1
-    spawnableObject: {fileID: 0}
-    heightMapping:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0.8000488
-        value: 0.92666626
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1.0142822
-        value: 1.2654076
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 0
-    color: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 0}
+    heightScale: 40
+    heightShift: -7
+    flat: 0
+    heatCutoffs: []
+    spawnableResource: []
+    color:
+    - {r: 0.9150943, g: 0.9150943, b: 0.9150943, a: 0}

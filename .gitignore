@@ -5,6 +5,12 @@ Library/ShaderCache/*
 Library/StateCache/*
 *.log
 Temp/*
-.vs/Assembly-CShapr/xs/UserPrefs.xml
+.vs/Assembly-CSharp/xs/UserPrefs.xml
 .goutput
 obj/Debug/*
+
+.vs/Mother-Nature/xs/UserPrefs.xml
+
+Library/EditorInstance.json
+
+Library/CurrentLayout-default.dwlt

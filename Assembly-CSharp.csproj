@@ -11,7 +11,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{98A50627-4F61-6B9C-B5C7-FEA1468361B3}</ProjectGuid>
+    <ProjectGuid>{CF51B0E7-1A65-2719-D39A-04E87125C2A3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -55,38 +55,39 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Generation\GeneratePlanes.cs" />
+     <Compile Include="Assets\Scripts\Generation\HexTile.cs" />
+     <Compile Include="Assets\Scripts\Generation\HexTileMapGenerator.cs" />
+     <Compile Include="Assets\Scripts\Generation\HexTileMetrics.cs" />
      <Compile Include="Assets\Scripts\Generation\NoiseGeneration.cs" />
      <Compile Include="Assets\Scripts\Generation\TerrainData.cs" />
      <Compile Include="Assets\Scripts\Generation\TerrainType.cs" />
-     <Compile Include="Assets\Scripts\Generation\TileGeneration.cs" />
      <Compile Include="Assets\Scripts\Generic\Singleton.cs" />
  <Reference Include="Unity.Timeline.Editor">
- <HintPath>/home/laurence/WorldGenAttempts/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+ <HintPath>/home/laurence/programming/git/Mother-Nature/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.VSCode.Editor">
- <HintPath>/home/laurence/WorldGenAttempts/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+ <HintPath>/home/laurence/programming/git/Mother-Nature/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro.Editor">
- <HintPath>/home/laurence/WorldGenAttempts/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+ <HintPath>/home/laurence/programming/git/Mother-Nature/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
- <HintPath>/home/laurence/WorldGenAttempts/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+ <HintPath>/home/laurence/programming/git/Mother-Nature/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Timeline">
- <HintPath>/home/laurence/WorldGenAttempts/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+ <HintPath>/home/laurence/programming/git/Mother-Nature/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
  </Reference>
  <Reference Include="Unity.CollabProxy.Editor">
- <HintPath>/home/laurence/WorldGenAttempts/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+ <HintPath>/home/laurence/programming/git/Mother-Nature/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Rider.Editor">
- <HintPath>/home/laurence/WorldGenAttempts/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+ <HintPath>/home/laurence/programming/git/Mother-Nature/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro">
- <HintPath>/home/laurence/WorldGenAttempts/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+ <HintPath>/home/laurence/programming/git/Mother-Nature/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.UI">
- <HintPath>/home/laurence/WorldGenAttempts/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+ <HintPath>/home/laurence/programming/git/Mother-Nature/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>/home/laurence/programming/unity/2019.2.9f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

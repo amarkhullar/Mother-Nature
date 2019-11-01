@@ -4,10 +4,15 @@ using UnityEngine;
 [System.Serializable]
 public class TerrainType
 {
+    // TODO: Maybe change this to a hight range, heat range, and separate out the []'s
     public string name;
-    public float heightCutoff; // Ideal would be removing this, replacing it with some frequency?
-                               // This would then automatically be set
-    public GameObject spawnableObject;
-    public AnimationCurve heightMapping;
-    public Color color;
+    public float heightCutoff;
+    public float heightScale;
+    public float heightShift;
+    public bool flat;
+
+    public float[] heatCutoffs; // Heat changes variation of the terraintype. Eg: Desert -> Plain -> Forest -> Snowy forest, all have same height
+    public GameObject[] spawnableResource;
+    public Color[] color;
+    
 }
