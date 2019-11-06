@@ -6,9 +6,15 @@ using UnityEngine;
 public class HexTile : MonoBehaviour
 {
 
+    // TODO:
+    //      Tile Health
+    //      Tile Productivity
+    //      Set Tile's layer to something so it can collide with VRPlayer's attacks.
+
     Mesh mesh;
     List<Vector3> vertices;
     List<int> triangles;
+    public int x, z;
     public GameObject top;
     public TerrainType terrain;
     int terrainVariation;
@@ -21,6 +27,8 @@ public class HexTile : MonoBehaviour
         vertices = new List<Vector3>();
         triangles = new List<int>();
     }
+
+    //////// TILE GENERATION ////////
 
     public void GenerateMesh()
     {
@@ -66,10 +74,15 @@ public class HexTile : MonoBehaviour
         if (t.spawnableResource.Length > var)
             if(t.spawnableResource[var] != null)
             {
-                top = Instantiate(t.spawnableResource[var], transform.position, Quaternion.identity);
-                top.transform.SetParent(transform, false);
-                top.transform.Translate(0, 0.5f, 0);
+                SetObjectOnTile(t.spawnableResource[var]);
             }
+    }
+
+    public void SetObjectOnTile(GameObject go)
+    {
+        top = Instantiate(go, transform.position, Quaternion.identity);
+        top.transform.SetParent(transform, false);
+        top.transform.Translate(0, 0.5f, 0);
     }
 
     void SetMaterialColor(Color c)
@@ -77,5 +90,7 @@ public class HexTile : MonoBehaviour
         Material mat = GetComponent<MeshRenderer>().material;
         mat.color = c;
     }
+
+    //////// END TILE GENERATION ////////
 
 }

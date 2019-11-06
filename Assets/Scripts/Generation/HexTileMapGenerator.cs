@@ -61,6 +61,8 @@ public class HexTileMapGenerator : MonoBehaviour
         HexTile tile = tiles[i] = Instantiate<HexTile>(hexTile);
         tile.transform.SetParent(transform, false);
         tile.transform.localPosition = position;
+        tile.x = x;
+        tile.z = z;
     }
 
     void GenerateMap()
@@ -90,16 +92,12 @@ public class HexTileMapGenerator : MonoBehaviour
         }
     }
 
-    static int above = 0;
-
     void SetTerrainTypes(float[] heightMap, float[] heatMap)
     {
         for (int i = 0; i < tiles.Length; i++)
         {
             tiles[i].SetTerrainType(data.GetTerrainAt(heightMap[i], heatMap[i]));
-            if (heatMap[i] > 0.5f) above++;
         }
-        Debug.Log(above);
     }
 
     float[] SetHeights(float[] heightMap, float[] xs, float[] zs)
@@ -131,6 +129,11 @@ public class HexTileMapGenerator : MonoBehaviour
         {
             if (hx.isAlive) hx.GenerateMesh();
         }
+    }
+
+    public HexTile GetHexTile(int x, int z)
+    {
+        return this.tiles[x + z * mapWidth];
     }
 
 }
