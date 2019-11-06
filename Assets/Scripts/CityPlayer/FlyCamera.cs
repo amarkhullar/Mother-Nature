@@ -4,21 +4,35 @@ using System.Collections;
 public class FlyCamera : MonoBehaviour {
 
     /*
-    Writen by Windexglow 11-13-10.  Use it, edit it, steal it I don't care.
-    Converted to C# 27-02-13 - no credit wanted.
-    Simple flycam I made, since I couldn't find any others made public.
-    Made simple to use (drag and drop, done) for regular keyboard layout
     wasd : basic movement
-    shift : Makes camera accelerate
-    space : Moves camera on X and Z axis only.  So camera doesn't gain any height*/
+    shift : Makes camera accelerate*/
 
 
+    [SerializeField]
     float mainSpeed = 100.0f; //regular speed
+    [SerializeField]
     float shiftAdd = 250.0f; //multiplied by how long shift is held.  Basically running
+    [SerializeField]
     float maxShift = 1000.0f; //Maximum speed when holdin gshift
-    float camSens = 0.25f; //How sensitive it with mouse
-    private Vector3 lastMouse = new Vector3(255, 255, 255); //kind of in the middle of the screen, rather than at the top (play)
+//    float camSens = 0.25f; //How sensitive it with mouse
+//    private Vector3 lastMouse = new Vector3(255, 255, 255); //kind of in the middle of the screen, rather than at the top (play)
     private float totalRun= 1.0f;
+
+    public float dragSpeed = 1000f;
+    public float minFov = 10;
+    public float maxFov = 100;
+    public float defaultFov = 60;
+    public float zoomSpeed = 10;
+    private float curFov;
+    private Vector3 dragOrigin;
+    private Vector3 worldOrigin;
+    private Camera cam;
+
+    void Start(){
+        cam = GetComponent<Camera>();
+        cam.fieldOfView = defaultFov;
+        curFov = defaultFov;
+    }
 
     void Update () {
         /*
@@ -29,6 +43,7 @@ public class FlyCamera : MonoBehaviour {
         lastMouse =  Input.mousePosition;
         //Mouse  camera angle done.
         */
+
         //Keyboard commands
         float f = 0.0f;
         Vector3 p = GetBaseInput();
@@ -51,6 +66,39 @@ public class FlyCamera : MonoBehaviour {
         newPosition.x = transform.position.x;
         newPosition.z = transform.position.z;
         transform.position = newPosition;
+
+        UpdateZoom();
+
+        // Camera dragging
+        if (Input.GetMouseButtonDown(0))
+        {
+            worldOrigin = transform.position;
+            dragOrigin = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+            dragOrigin.z = dragOrigin.y;
+            return;
+        }
+
+        if (!Input.GetMouseButton(0)) return;
+
+        Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+        pos.z = pos.y;
+        Vector3 end = worldOrigin + (dragOrigin - pos) * dragSpeed;
+        end.y = transform.position.y;
+        transform.position = end;
+
+    }
+
+    private void UpdateZoom(){
+        // Zoom (changing FoV)
+        if(Input.GetKey(KeyCode.E))
+            curFov -= zoomSpeed * Time.deltaTime;
+        else if(Input.GetKey(KeyCode.Q))
+            curFov += zoomSpeed * Time.deltaTime;
+
+        if(curFov < minFov) curFov = minFov;
+        if(curFov > maxFov) curFov = maxFov;
+
+        cam.fieldOfView = curFov;
     }
 
     private Vector3 GetBaseInput() { //returns the basic values, if it's 0 than it's not active.
