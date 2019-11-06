@@ -105,7 +105,7 @@ MonoBehaviour:
   - name: Mountains
     heightCutoff: 1
     heightScale: 35
-    heightShift: -6
+    heightShift: -5.8
     flat: 0
     heatCutoffs: []
     spawnableResource: []

@@ -311,6 +311,10 @@ MonoBehaviour:
   shiftAdd: 100
   maxShift: 300
   dragSpeed: 300
+  minFov: 10
+  maxFov: 100
+  defaultFov: 60
+  zoomSpeed: 30
 --- !u!1001 &1019626014
 PrefabInstance:
   m_ObjectHideFlags: 0

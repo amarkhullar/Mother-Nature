@@ -35,6 +35,8 @@ public class HexTile : MonoBehaviour
         mesh.Clear();
         vertices.Clear();
         triangles.Clear();
+
+        // Top Hexagonal plate
         Vector3 center = transform.localPosition;
         for (int i = 0; i < 6; i++)
         {
@@ -42,6 +44,24 @@ public class HexTile : MonoBehaviour
                 center,
                 center + HexTileMetrics.corners[i],
                 center + HexTileMetrics.corners[i + 1]
+            );
+        }
+
+        int sideHeight = 20;
+        // Sides
+        for(int i = 0; i < 6; i++)
+        {
+            Vector3 lowa = new Vector3(HexTileMetrics.corners[i].x, HexTileMetrics.corners[i].y-sideHeight, HexTileMetrics.corners[i].z);
+            Vector3 lowb = new Vector3(HexTileMetrics.corners[i+1].x, HexTileMetrics.corners[i+1].y-sideHeight, HexTileMetrics.corners[i+1].z);
+            AddTriangle(
+                center + HexTileMetrics.corners[i],
+                center + lowa,
+                center + lowb
+            );
+            AddTriangle(
+                center + HexTileMetrics.corners[i+1],
+                center + HexTileMetrics.corners[i],
+                center + lowb
             );
         }
 

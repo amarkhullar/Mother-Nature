@@ -56,7 +56,7 @@ public class HexTileMapGenerator : MonoBehaviour
         Vector3 position;
         position.x = (x + z * 0.5f - z / 2) * HexTileMetrics.distBetween; // nb: z/2 and z*0.5f are different. z/2 rounds down. z*0.5f doesn't.
         position.y = 0f;                                                  // ^^ this means that you end up with a slightly staggered pattern.
-        position.z = z * (HexTileMetrics.distBetween - 0.1f);
+        position.z = z * (HexTileMetrics.distBetween - 1f);
 
         HexTile tile = tiles[i] = Instantiate<HexTile>(hexTile);
         tile.transform.SetParent(transform, false);
@@ -117,7 +117,7 @@ public class HexTileMapGenerator : MonoBehaviour
 
         return actualHeights;
     }
-    
+
     void Start()
     {
         GenerateMeshes();
