@@ -92,6 +92,7 @@ public class HexTile : MonoBehaviour
     public void SetTerrainType(TerrainType t, int var)
     {
         terrain = t;
+        terrainVariation = var;
         SetMaterialColor(t.color[var]);
 
         if (t.spawnableResource.Length > var)
@@ -114,7 +115,12 @@ public class HexTile : MonoBehaviour
         top.transform.Translate(0, 0.5f, 0);
     }
 
-    void SetMaterialColor(Color c)
+    public void ResetMaterialColor()
+    {
+        SetMaterialColor(terrain.color[terrainVariation]);
+    }
+
+    public void SetMaterialColor(Color c)
     {
         Material mat = GetComponent<MeshRenderer>().material;
         mat.color = c;
@@ -122,7 +128,7 @@ public class HexTile : MonoBehaviour
 
     //////// END TILE GENERATION ////////
 
-    void PlaceBuilding(GameObject go)
+    public void PlaceBuilding(GameObject go)
     {
         Building bscript = go.GetComponent<Building>();
         if(bscript != null)

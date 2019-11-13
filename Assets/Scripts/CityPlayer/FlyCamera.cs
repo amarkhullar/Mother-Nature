@@ -35,17 +35,8 @@ public class FlyCamera : MonoBehaviour {
     }
 
     void Update () {
-        /*
-        lastMouse = Input.mousePosition - lastMouse ;
-        lastMouse = new Vector3(-lastMouse.y * camSens, lastMouse.x * camSens, 0 );
-        lastMouse = new Vector3(transform.eulerAngles.x + lastMouse.x , transform.eulerAngles.y + lastMouse.y, 0);
-        transform.eulerAngles = lastMouse;
-        lastMouse =  Input.mousePosition;
-        //Mouse  camera angle done.
-        */
 
         //Keyboard commands
-        float f = 0.0f;
         Vector3 p = GetBaseInput();
         if (Input.GetKey (KeyCode.LeftShift)){
             totalRun += Time.deltaTime;
@@ -69,8 +60,8 @@ public class FlyCamera : MonoBehaviour {
 
         UpdateZoom();
 
-        // Camera dragging
-        if (Input.GetMouseButtonDown(0))
+        // Camera dragging with Right mouse button.
+        if (Input.GetMouseButtonDown(1))
         {
             worldOrigin = transform.position;
             dragOrigin = Camera.main.ScreenToViewportPoint(Input.mousePosition);
@@ -78,7 +69,7 @@ public class FlyCamera : MonoBehaviour {
             return;
         }
 
-        if (!Input.GetMouseButton(0)) return;
+        if (!Input.GetMouseButton(1)) return;
 
         Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
         pos.z = pos.y;
