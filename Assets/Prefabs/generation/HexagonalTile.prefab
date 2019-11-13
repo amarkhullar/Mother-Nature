@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1044260765776575296}
   - component: {fileID: 5418753219127483910}
   - component: {fileID: 3361992866100964188}
+  - component: {fileID: 8293112320489134994}
   m_Layer: 0
   m_Name: HexagonalTile
   m_TagString: Untagged
@@ -91,4 +92,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9600483c67637008fa43ec87c62b6781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  x: 0
+  z: 0
+  terrain:
+    name: 
+    heightCutoff: 0
+    heightScale: 0
+    heightShift: 0
+    flat: 0
+    heatCutoffs: []
+    spawnableResource: []
+    color: []
+  terrainVariation: 0
   isAlive: 1
+  top: {fileID: 0}
+  resourceType: 0
+--- !u!64 &8293112320489134994
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8594993642154409232}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 0}

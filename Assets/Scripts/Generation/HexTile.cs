@@ -25,6 +25,7 @@ public class HexTile : MonoBehaviour
     private void Awake()
     {
         GetComponent<MeshFilter>().mesh = mesh = new Mesh();
+        GetComponent<MeshCollider>().sharedMesh = mesh;
         mesh.name = "Hex Mesh";
         vertices = new List<Vector3>();
         triangles = new List<int>();
