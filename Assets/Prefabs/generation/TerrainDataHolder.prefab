@@ -75,8 +75,8 @@ MonoBehaviour:
     spawnableResource:
     - {fileID: 0}
     - {fileID: 0}
-    - {fileID: -927199367670048503, guid: 4ed4887c49687b503b3552e32ba44ddb, type: 3}
-    - {fileID: -927199367670048503, guid: 4ed4887c49687b503b3552e32ba44ddb, type: 3}
+    - {fileID: 5656091662007184684, guid: e191c3bfc3f615f7cb31544d561d02ef, type: 3}
+    - {fileID: 5656091662007184684, guid: e191c3bfc3f615f7cb31544d561d02ef, type: 3}
     color:
     - {r: 1, g: 0.7130058, b: 0, a: 0}
     - {r: 0, g: 1, b: 0.008504152, a: 0}
@@ -95,8 +95,8 @@ MonoBehaviour:
     spawnableResource:
     - {fileID: 0}
     - {fileID: 0}
-    - {fileID: -927199367670048503, guid: 4ed4887c49687b503b3552e32ba44ddb, type: 3}
-    - {fileID: -927199367670048503, guid: 4ed4887c49687b503b3552e32ba44ddb, type: 3}
+    - {fileID: 5656091662007184684, guid: e191c3bfc3f615f7cb31544d561d02ef, type: 3}
+    - {fileID: 5656091662007184684, guid: e191c3bfc3f615f7cb31544d561d02ef, type: 3}
     color:
     - {r: 0.8301887, g: 0.81875014, b: 0.30936277, a: 0}
     - {r: 0.28782484, g: 0.7264151, b: 0.35245, a: 0}

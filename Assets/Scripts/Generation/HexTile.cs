@@ -15,10 +15,12 @@ public class HexTile : MonoBehaviour
     List<Vector3> vertices;
     List<int> triangles;
     public int x, z;
-    public GameObject top;
     public TerrainType terrain;
-    int terrainVariation;
+    public int terrainVariation;
     public bool isAlive = true; // TODO Come up with better name.
+    public GameObject top; // Displayed Object
+    public ResourceTypeEnum resourceType = ResourceTypeEnum.NONE; // Could be changed to ResourceObject, then inherit the script from the tree/rock placed on top.
+    // Maybe some value of how much is left? Could be put in ResourceObject if doing ^^^.
 
     private void Awake()
     {
@@ -94,12 +96,18 @@ public class HexTile : MonoBehaviour
         if (t.spawnableResource.Length > var)
             if(t.spawnableResource[var] != null)
             {
-                SetObjectOnTile(t.spawnableResource[var]);
+                GameObject go = t.spawnableResource[var];
+                SetObjectOnTile(go);
+                resourceType = go.GetComponent<ResourceObject>().resourceType;
             }
+
     }
 
     public void SetObjectOnTile(GameObject go)
     {
+        if(go.GetComponent<Building>() == null && go.GetComponent<ResourceObject>() == null) Debug.LogWarning("Should this object have a resource/building script?");
+
+        Destroy(top);
         top = Instantiate(go, transform.position, Quaternion.identity);
         top.transform.SetParent(transform, false);
         top.transform.Translate(0, 0.5f, 0);
@@ -112,5 +120,16 @@ public class HexTile : MonoBehaviour
     }
 
     //////// END TILE GENERATION ////////
+
+    void PlaceBuilding(GameObject go)
+    {
+        Building bscript = go.GetComponent<Building>();
+        if(bscript != null)
+        {
+            SetObjectOnTile(go);
+            // TODO
+        }
+        Debug.LogWarning("Cannot place a non building as a building.");
+    }
 
 }

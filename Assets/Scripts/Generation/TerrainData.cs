@@ -1,9 +1,11 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class TerrainData : Singleton<TerrainData>
 {
+    // TODO: Probably turn this into enums etc, only once it's more set in stone though.
     [SerializeField]
     private TerrainType[] terrainTypes;
 
@@ -28,7 +30,7 @@ public class TerrainData : Singleton<TerrainData>
             for(int i = 1; i < n.heatCutoffs.Length; i++)
             {
                 if ((n.heatCutoffs[i] > n.heatCutoffs[var] && n.heatCutoffs[i] < heat) ||
-                    (n.heatCutoffs[i] > n.heatCutoffs[var] && n.heatCutoffs[var] < heat)) 
+                    (n.heatCutoffs[i] > n.heatCutoffs[var] && n.heatCutoffs[var] < heat))
                         var = i;
             }
         }

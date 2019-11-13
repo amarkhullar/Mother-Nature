@@ -55,11 +55,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\CityPlayer\Building.cs" />
      <Compile Include="Assets\Scripts\CityPlayer\FlyCamera.cs" />
      <Compile Include="Assets\Scripts\Generation\HexTile.cs" />
      <Compile Include="Assets\Scripts\Generation\HexTileMapGenerator.cs" />
      <Compile Include="Assets\Scripts\Generation\HexTileMetrics.cs" />
      <Compile Include="Assets\Scripts\Generation\NoiseGeneration.cs" />
+     <Compile Include="Assets\Scripts\Generation\ResourceObject.cs" />
+     <Compile Include="Assets\Scripts\Generation\ResourceTypeEnum.cs" />
      <Compile Include="Assets\Scripts\Generation\TerrainData.cs" />
      <Compile Include="Assets\Scripts\Generation\TerrainType.cs" />
      <Compile Include="Assets\Scripts\Generic\Singleton.cs" />
