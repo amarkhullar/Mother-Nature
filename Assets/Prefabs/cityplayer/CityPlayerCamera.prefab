@@ -111,6 +111,7 @@ GameObject:
   - component: {fileID: 694251926720031077}
   - component: {fileID: 694251926720031074}
   - component: {fileID: 963194226}
+  - component: {fileID: 2249618553731556814}
   m_Layer: 0
   m_Name: CityPlayerCamera
   m_TagString: MainCamera
@@ -216,8 +217,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44324d41e1d3b7e3fbfd7ce797574af3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildMenuObj: {fileID: 6654772773935169455, guid: 115b3e06dd46e9b1da52b11dfbb30983,
+  buildMenuObj: {fileID: 8810401444047672496, guid: 742f5757df15603ffbc4d200b3ea2e45,
     type: 3}
   uicanvas: {fileID: 7563978438445349893}
-  building: {fileID: 7957153859863697155, guid: 9644738d359dfd488826bfdc2e5f5b81,
-    type: 3}
+  buildingList: {fileID: 2249618553731556814}
+--- !u!114 &2249618553731556814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 694251926720031078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06ba941dbea104f6eb37b3968b26f5d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildings:
+  - {fileID: 7957153859863697155, guid: 9644738d359dfd488826bfdc2e5f5b81, type: 3}
+  - {fileID: 7262238560964076772, guid: b0c31f1cf852811118ed7ff69fe31251, type: 3}

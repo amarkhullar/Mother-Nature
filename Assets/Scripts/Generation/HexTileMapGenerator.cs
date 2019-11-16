@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class HexTileMapGenerator : MonoBehaviour
 {
+
+    // TODO: See if values need tweaking
+    //       Generate rocks/metal veins/any other 
+
     [SerializeField]
     public TerrainData data;
     [SerializeField]

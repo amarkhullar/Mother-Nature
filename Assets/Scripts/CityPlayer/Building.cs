@@ -7,7 +7,8 @@ public class Building : MonoBehaviour
     // Some temporary attributes, TODO: check what's actually needed etc.
     [SerializeField] public bool destroysResourceOnPlace;
     [SerializeField] public Dictionary<ResourceTypeEnum, int> resourceConsumption; // -ve value for production
-//    public Player owner;
+    [SerializeField] public Dictionary<ResourceTypeEnum, int> buildCost; // -ve value for production
+    public CityPlayer owner;
 
     public void Update()
     {

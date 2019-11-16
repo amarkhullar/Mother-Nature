@@ -16,13 +16,14 @@ public class CityPlayer : MonoBehaviour
     private GameObject buildMenuObj;
     [SerializeField]
     private RectTransform uicanvas;
-
     [SerializeField]
-    private GameObject building;
+    private BuildingList buildingList;
 
     void Update()
     {
-        if(!IsPointerOverUIObject())
+        // TODO: Maybe move clicks to a IPointerClickHandler/IPointerDownHandler/IPointerUpHandler
+        //       ^^ only bother if we end up with a lot of objects that are checking for clicks
+        if(!IsPointerOverUIObject()) // Stops a raycast when over a button
         {
 
             // Left Click to select hextile
@@ -63,10 +64,11 @@ public class CityPlayer : MonoBehaviour
     public void Deselect()
     {
         if(selectedTile != null) selectedTile.ResetMaterialColor();
-
+        HideBuildMenu();
     }
 
     private bool menuOpen = false;
+    private GameObject menu;
     void ShowBuildMenu()
     {
         // TODO: Decide whether this appears at a static location on the screen, or if it appears in relation to the tile
@@ -75,25 +77,36 @@ public class CityPlayer : MonoBehaviour
 
         if(menuOpen) return;
         menuOpen = true;
-        GameObject menu = Instantiate(buildMenuObj);
+        menu = Instantiate(buildMenuObj);
 
         menu.transform.SetParent(uicanvas.transform, false);
         menu.transform.localScale = new Vector3(1, 1, 1);
 
-        RectTransform rt = menu.GetComponent<RectTransform>();
-        rt.anchoredPosition.Set(-500, -200);
+        menu.GetComponent<BuildingMenu>().GenerateButtons(buildingList, this);
+
+        //RectTransform rt = menu.GetComponent<RectTransform>();
+        // rt.anchoredPosition.Set(-500, -200);
 
         // This can be set on the buttons themselves once a proper menu has been made.
-        Button button = menu.GetComponent<Button>();
-        button.onClick.AddListener(() => tempBuild());
+        // Button button = menu.GetComponent<Button>();
+        // button.onClick.AddListener(() => onBuildButtonPress());
     }
 
-    public void tempBuild()
+    void HideBuildMenu(){
+        if(!menuOpen) return;
+        Destroy(menu);
+        menuOpen = false;
+    }
+
+    public void OnBuildButtonPress(GameObject building)
     {
-        // TODO: Change this to take in a building.
+        // TODO: Check if we have resources required.
         // TODO: Reduce resources based on building cost.
 
+        // PlaceBuilding() checks the validity of the building
         selectedTile.PlaceBuilding(building);
+        Building b = building.GetComponent<Building>();
+        b.owner = this;
     }
 
 
