@@ -57,9 +57,10 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\CityPlayer\Building.cs" />
      <Compile Include="Assets\Scripts\CityPlayer\BuildingList.cs" />
-     <Compile Include="Assets\Scripts\CityPlayer\BuildingMenu.cs" />
      <Compile Include="Assets\Scripts\CityPlayer\CityPlayer.cs" />
      <Compile Include="Assets\Scripts\CityPlayer\FlyCamera.cs" />
+     <Compile Include="Assets\Scripts\CityPlayer\UI\BuildingMenu.cs" />
+     <Compile Include="Assets\Scripts\CityPlayer\UI\ResourceDisplay.cs" />
      <Compile Include="Assets\Scripts\Generation\HexTile.cs" />
      <Compile Include="Assets\Scripts\Generation\HexTileMapGenerator.cs" />
      <Compile Include="Assets\Scripts\Generation\HexTileMetrics.cs" />

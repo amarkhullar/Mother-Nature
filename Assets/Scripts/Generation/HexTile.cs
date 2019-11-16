@@ -136,7 +136,7 @@ public class HexTile : MonoBehaviour
             SetObjectOnTile(go);
             // TODO: Is there really anything else to do here though? Feels like there should but I've got no bloody clue.
         }
-        Debug.LogWarning("Cannot place a non building as a building.");
+        else Debug.LogWarning("Cannot place a non building as a building.");
     }
 
 }

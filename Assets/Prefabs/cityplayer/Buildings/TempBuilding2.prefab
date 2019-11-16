@@ -106,4 +106,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroysResourceOnPlace: 0
+  resourceConsumptionInita: 02000000
+  resourceConsumptionInitb:
+  - -1
+  buildCostInita: 
+  buildCostInitb: []
   owner: {fileID: 0}

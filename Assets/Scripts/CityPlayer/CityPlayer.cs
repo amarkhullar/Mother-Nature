@@ -1,3 +1,4 @@
+using System;
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,14 +11,21 @@ public class CityPlayer : MonoBehaviour
     private GameObject selectedObject; // TODO: Check if this is necessary or if can skip and just use hextile
     private HexTile selectedTile;
 
-    private Dictionary<ResourceTypeEnum, int> resources = new Dictionary<ResourceTypeEnum, int>();
+    public Dictionary<ResourceTypeEnum, float> resources = new Dictionary<ResourceTypeEnum, float>();
 
     [SerializeField]
     private GameObject buildMenuObj;
     [SerializeField]
-    private RectTransform uicanvas;
+    public RectTransform uicanvas;
     [SerializeField]
     private BuildingList buildingList;
+
+    void Start(){
+        foreach(ResourceTypeEnum rte in Enum.GetValues(typeof(ResourceTypeEnum))){
+            if(rte == ResourceTypeEnum.NONE) continue;
+            resources.Add(rte, 0);
+        }
+    }
 
     void Update()
     {
@@ -92,7 +100,8 @@ public class CityPlayer : MonoBehaviour
         // button.onClick.AddListener(() => onBuildButtonPress());
     }
 
-    void HideBuildMenu(){
+    void HideBuildMenu()
+    {
         if(!menuOpen) return;
         Destroy(menu);
         menuOpen = false;
@@ -107,6 +116,7 @@ public class CityPlayer : MonoBehaviour
         selectedTile.PlaceBuilding(building);
         Building b = building.GetComponent<Building>();
         b.owner = this;
+        Debug.Log(b.owner);
     }
 
 

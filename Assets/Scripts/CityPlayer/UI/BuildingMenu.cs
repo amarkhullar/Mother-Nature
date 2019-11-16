@@ -22,7 +22,7 @@ public class BuildingMenu : MonoBehaviour
 
             GameObject butObj = Instantiate(button);
             butObj.transform.SetParent(GetComponent<Transform>(), false);
-            butObj.transform.Translate(-Screen.width/3f - 50 + 200 * i, - Screen.height/3f - 50, 0);
+            butObj.transform.Translate(-Screen.width/3f - 50 + 200 * i, - Screen.height/3f - 50, 0);  // TODO: find a better way to poition UI elements
 
             Button bttn = butObj.GetComponent<Button>();
             bttn.onClick.AddListener(() => player.OnBuildButtonPress(b));

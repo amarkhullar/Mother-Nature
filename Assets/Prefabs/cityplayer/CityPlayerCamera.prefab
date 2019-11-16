@@ -112,6 +112,7 @@ GameObject:
   - component: {fileID: 694251926720031074}
   - component: {fileID: 963194226}
   - component: {fileID: 2249618553731556814}
+  - component: {fileID: 3098943417555970857}
   m_Layer: 0
   m_Name: CityPlayerCamera
   m_TagString: MainCamera
@@ -236,3 +237,17 @@ MonoBehaviour:
   buildings:
   - {fileID: 7957153859863697155, guid: 9644738d359dfd488826bfdc2e5f5b81, type: 3}
   - {fileID: 7262238560964076772, guid: b0c31f1cf852811118ed7ff69fe31251, type: 3}
+--- !u!114 &3098943417555970857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 694251926720031078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2855acefbd8ae36f8354196765214da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 963194226}
+  textObj: {fileID: 8558724012489436987, guid: 6636433c112e294c19eea29d95b7f4df, type: 3}
