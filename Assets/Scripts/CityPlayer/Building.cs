@@ -6,11 +6,13 @@ public class Building : MonoBehaviour
 {
 
     // Some temporary attributes, TODO: check what's actually needed etc.
-    [SerializeField] public bool destroysResourceOnPlace;
-    [SerializeField] private ResourceTypeEnum[] resourceConsumptionInita; // workaround bc unity hates dicts >:[
-    [SerializeField] private float[] resourceConsumptionInitb;
-    [SerializeField] private ResourceTypeEnum[] buildCostInita;
-    [SerializeField] private float[] buildCostInitb;
+    [SerializeField] public bool destroysResourceOnPlace; // this can probably be replaced by a "yes, unless resource appears in consumption"
+    [SerializeField] private ResourceTypeEnum[] resourceConsumptionInita = null; // workaround bc unity hates dicts >:[
+    [SerializeField] private float[] resourceConsumptionInitb = null;
+    [SerializeField] private ResourceTypeEnum[] buildCostInita = null;
+    [SerializeField] private float[] buildCostInitb = null;
+    [SerializeField] public ResourceTypeEnum requiresResourceOnTile = ResourceTypeEnum.NONE ;
+    // pollution/sec? resource usage/sec? (ie on the tile, so like basic logger may use 1wood/sec and produce 1/sec, but super eco logger xtreme might be 0.5/sec for 5/sec)
 
     public Dictionary<ResourceTypeEnum, float> resourceConsumption = new Dictionary<ResourceTypeEnum,float>(); // -ve value for production
     public Dictionary<ResourceTypeEnum, float> buildCost = new Dictionary<ResourceTypeEnum, float>(); // -ve value for production
@@ -34,6 +36,12 @@ public class Building : MonoBehaviour
 
     public void Update()
     {
+        if(owner == null)
+        {
+            Debug.LogWarning("Owner was never set, destroying building.");
+            // Panic
+            Destroy(this);
+        }
         // Change player resources
         foreach(ResourceTypeEnum rte in resourceConsumption.Keys)
         {
@@ -43,6 +51,6 @@ public class Building : MonoBehaviour
 
     public void OnDestroy()
     {
-
+        // Regain some resources from the building cost? Maybe 25%? Really discourage dismantling?
     }
 }

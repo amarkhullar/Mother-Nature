@@ -37,13 +37,11 @@ public class CityPlayer : MonoBehaviour
             // Left Click to select hextile
             if (Input.GetMouseButtonDown(0))
             {
-                Debug.Log("Left click");
                 Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );
                 RaycastHit hit;
 
                 if(Physics.Raycast(ray, out hit, 400))
                 {
-                    Debug.Log( hit.transform.gameObject.name);
                     Select(hit.transform.gameObject);
                 }
             }
@@ -62,6 +60,8 @@ public class CityPlayer : MonoBehaviour
 
         selectedObject = go;
         selectedTile = selectedObject.GetComponent<HexTile>(); // TODO: Ensure this will always work, even if there are other objects with collider meshes
+
+        selectedTile.prev = Color.red; // a tad bit of a hack
 
         // TODO: Change this to some sort of highlighting affect.
         selectedTile.SetMaterialColor(Color.red);
@@ -109,14 +109,31 @@ public class CityPlayer : MonoBehaviour
 
     public void OnBuildButtonPress(GameObject building)
     {
-        // TODO: Check if we have resources required.
         // TODO: Reduce resources based on building cost.
+        // TODO: Proper failure/returning which requirements are failed. Should be done in the menu construction/updating?
+
+        Building b = building.GetComponent<Building>();
+
+        // Check that we have enough resources
+        foreach(ResourceTypeEnum rte in b.buildCost.Keys)
+        {
+            if(b.buildCost[rte] > resources[rte]) return;
+        }
+
+        // Check the tile has the resource that the building requires. Eg: forester or mine or w/e needs forest/rock/etc
+        if(b.requiresResourceOnTile != ResourceTypeEnum.NONE)
+        {
+            if(selectedTile.resourceType != b.requiresResourceOnTile) return;
+        }
 
         // PlaceBuilding() checks the validity of the building
         selectedTile.PlaceBuilding(building);
-        Building b = building.GetComponent<Building>();
-        b.owner = this;
-        Debug.Log(b.owner);
+        b.owner = this; // TODO: Check why this occasionally fails.
+
+        foreach(ResourceTypeEnum rte in b.buildCost.Keys)
+        {
+            resources[rte] -= b.buildCost[rte];
+        }
     }
 
 

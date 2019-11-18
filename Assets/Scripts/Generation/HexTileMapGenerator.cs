@@ -6,7 +6,11 @@ public class HexTileMapGenerator : MonoBehaviour
 {
 
     // TODO: See if values need tweaking
-    //       Generate rocks/metal veins/any other 
+    //       Generate rocks/metal veins/any other
+    //       Possible ways to generate: standard uniform random above n
+    //                                  in clusters, maybe with more perlin noise?
+    //                                  do metals spawn in place of stone, or are they completely separate?
+    //       Needs to be discussed ^^^
 
     [SerializeField]
     public TerrainData data;

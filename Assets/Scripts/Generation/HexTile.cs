@@ -117,7 +117,9 @@ public class HexTile : MonoBehaviour
 
     public void ResetMaterialColor()
     {
-        SetMaterialColor(terrain.color[terrainVariation]);
+        Color c = terrain.color[terrainVariation];
+        SetMaterialColor(c);
+        prev = c;
     }
 
     public void SetMaterialColor(Color c)
@@ -137,6 +139,18 @@ public class HexTile : MonoBehaviour
             // TODO: Is there really anything else to do here though? Feels like there should but I've got no bloody clue.
         }
         else Debug.LogWarning("Cannot place a non building as a building.");
+    }
+
+    // Tile Highlighting:
+    // TODO: See if this works better on a decent pc when compiled, a bit behind for me rn.
+    public Color prev; // public to allow for a tad bit of a hack from CityPlayer.cs - should find a better way to do this.
+    public void OnMouseEnter(){
+        prev = GetComponent<MeshRenderer>().material.color;
+        SetMaterialColor(Color.blue);
+    }
+
+    public void OnMouseExit(){
+        SetMaterialColor(prev);
     }
 
 }

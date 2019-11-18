@@ -7,6 +7,9 @@ using UnityEngine.UI;
 public class ResourceDisplay : MonoBehaviour
 {
 
+    // TODO: Make this look decent. Probably the best way is to remove the word, ie WOOD: xx, and make a little icon for them all
+    // TODO: Also probably a good idea to put an opaque bar behind. Might be a good idea to move them to to a corner and have them vertically in a box?
+
     [SerializeField]
     public CityPlayer player;
 
