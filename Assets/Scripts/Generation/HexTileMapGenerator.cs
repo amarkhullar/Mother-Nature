@@ -17,19 +17,19 @@ public class HexTileMapGenerator : MonoBehaviour
     [SerializeField]
     public HexTile hexTile;
     [SerializeField]
-    int mapWidth;
+    public int mapWidth;
     [SerializeField]
-    int mapHeight;
+    public int mapHeight;
     [SerializeField]
-    float heightMultiplier;
+    public float heightMultiplier;
     [SerializeField]
-    float heightNoiseScale;
+    public float heightNoiseScale;
     [SerializeField]
-    float heatNoiseScale;
+    public float heatNoiseScale;
     [SerializeField]
-    int heightWaves;
+    public int heightWaves;
     [SerializeField]
-    int heatWaves;
+    public int heatWaves;
 
     private HexTile[] tiles;
     private TerrainType[] terrains;

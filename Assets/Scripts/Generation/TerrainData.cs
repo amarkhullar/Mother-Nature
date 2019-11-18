@@ -7,7 +7,7 @@ public class TerrainData : Singleton<TerrainData>
 {
     // TODO: Probably turn this into enums etc, only once it's more set in stone though.
     [SerializeField]
-    private TerrainType[] terrainTypes;
+    public TerrainType[] terrainTypes;
 
     public TerrainType[] GetTerrainTypes()
     {

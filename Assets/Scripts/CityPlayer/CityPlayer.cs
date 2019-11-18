@@ -14,11 +14,11 @@ public class CityPlayer : MonoBehaviour
     public Dictionary<ResourceTypeEnum, float> resources = new Dictionary<ResourceTypeEnum, float>();
 
     [SerializeField]
-    private GameObject buildMenuObj;
+    public GameObject buildMenuObj;
     [SerializeField]
     public RectTransform uicanvas;
     [SerializeField]
-    private BuildingList buildingList;
+    public BuildingList buildingList;
 
     void Start(){
         foreach(ResourceTypeEnum rte in Enum.GetValues(typeof(ResourceTypeEnum))){
