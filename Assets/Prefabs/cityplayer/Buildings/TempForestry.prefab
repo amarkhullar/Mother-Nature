@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8440578403298689369}
   - component: {fileID: 7836028745756386360}
   m_Layer: 0
-  m_Name: TempBuilding2
+  m_Name: TempForestry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -106,10 +106,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroysResourceOnPlace: 0
-  resourceConsumptionInita: 03000000
+  resourceConsumptionInita: 02000000
   resourceConsumptionInitb:
   - -1
   buildCostInita: 
   buildCostInitb: []
   requiresResourceOnTile: 3
+  maxHealth: 0
+  curHealth: 0
+  productivityRate: 1
   owner: {fileID: 0}

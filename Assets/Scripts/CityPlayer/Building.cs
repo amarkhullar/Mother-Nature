@@ -14,6 +14,10 @@ public class Building : MonoBehaviour
     [SerializeField] public ResourceTypeEnum requiresResourceOnTile = ResourceTypeEnum.NONE ;
     // pollution/sec? resource usage/sec? (ie on the tile, so like basic logger may use 1wood/sec and produce 1/sec, but super eco logger xtreme might be 0.5/sec for 5/sec)
 
+    [SerializeField] public int maxHealth;
+    public float curHealth;
+    public float productivityRate = 1f;
+
     public Dictionary<ResourceTypeEnum, float> resourceConsumption = new Dictionary<ResourceTypeEnum,float>(); // -ve value for production
     public Dictionary<ResourceTypeEnum, float> buildCost = new Dictionary<ResourceTypeEnum, float>(); // -ve value for production
 
@@ -32,6 +36,8 @@ public class Building : MonoBehaviour
         {
             buildCost.Add(buildCostInita[i], buildCostInitb[i]);
         }
+
+        curHealth = maxHealth;
     }
 
     public void Update()
@@ -40,16 +46,22 @@ public class Building : MonoBehaviour
         {
             Debug.LogWarning("Owner was never set, destroying building.");
             // Panic
-            Destroy(this);
+            Destroy(this.gameObject);
         }
-        // Change player resources
-        foreach(ResourceTypeEnum rte in resourceConsumption.Keys)
+
+        if(curHealth <= 0)
         {
-            owner.resources[rte] -= resourceConsumption[rte] * Time.deltaTime;
+      //      Destroy(this.gameObject);
+        }
+
+        // Change player resources
+        foreach (ResourceTypeEnum rte in resourceConsumption.Keys)
+        {
+            owner.resources[rte] -= resourceConsumption[rte] * Time.deltaTime * productivityRate;
         }
     }
 
-    public void OnDestroy()
+    public void OnDeconstruction()
     {
         // Regain some resources from the building cost? Maybe 25%? Really discourage dismantling?
     }

@@ -10,10 +10,11 @@ public enum ResourceTypeEnum
     //     but this will screw up values in the unity editor, as those must be saved by index.
     //     Notable places to check: Generation prefabs (ResourceObject.resourceType), Building prefabs (Building.buildCostInita,resourceConsumptionInita)
     NONE,
-    GOLD,
-    FOOD,
+    FOOD,  // IE: Cows
     WOOD,
     STONE,
+    COAL,
     METAL,
     ELECTRICITY,
+    WATER, // ? might be a tad too far
 }
