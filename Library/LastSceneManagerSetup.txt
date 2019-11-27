@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/generationtestscene.unity
+- path: Assets/Scenes/game-scene.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
