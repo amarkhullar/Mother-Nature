@@ -111,7 +111,7 @@ MonoBehaviour:
   - -1
   buildCostInita: 
   buildCostInitb: []
-  requiresResourceOnTile: 3
+  requiresResourceOnTile: 2
   maxHealth: 0
   curHealth: 0
   productivityRate: 1

@@ -14,7 +14,7 @@ public class Building : MonoBehaviour
     [SerializeField] public ResourceTypeEnum requiresResourceOnTile = ResourceTypeEnum.NONE ;
     // pollution/sec? resource usage/sec? (ie on the tile, so like basic logger may use 1wood/sec and produce 1/sec, but super eco logger xtreme might be 0.5/sec for 5/sec)
 
-    [SerializeField] public int maxHealth;
+    [SerializeField] public int maxHealth = 100;
     public float curHealth;
     public float productivityRate = 1f;
 
@@ -51,7 +51,7 @@ public class Building : MonoBehaviour
 
         if(curHealth <= 0)
         {
-      //      Destroy(this.gameObject);
+            Destroy(this.gameObject);
         }
 
         // Change player resources

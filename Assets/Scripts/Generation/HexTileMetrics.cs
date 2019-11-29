@@ -4,6 +4,7 @@ using UnityEngine;
 
 public static class HexTileMetrics
 {
+    // Essentially just for holding the construction of a Hexagon, separating this out keeps stuff a tad cleaner.
 
     public const float outerRadius = 10f; // ie: radius to corner
     public const float innerRadius = outerRadius * 0.866025404f;
