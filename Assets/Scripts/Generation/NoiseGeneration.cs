@@ -27,8 +27,8 @@ public static class NoiseGeneration
     {
         Wave[] waves = new Wave[n];
 
-        float seedx = (seed * (7+seed%7) / (5 +seed%5) * (seed % 2 == 0 ? -1 : 1)) % 15485863;
-        float seedz = (seed * (13+seed%13)/(11+seed%11)* (seed % 2 == 0 ? 1 : -1)) % 15485863;
+        float seedx = (seed * (7+seed%7) / (5 +seed%5) * (seed % 2 == 0 ? -1 : 1)) % 99991;
+        float seedz = (seed * (13+seed%13)/(11+seed%11)* (seed % 2 == 0 ? 1 : -1)) % 99991;
 
         for (int i = 0; i < n; i++)
         {
@@ -38,8 +38,8 @@ public static class NoiseGeneration
             waves[i].seedx = seedx;
             waves[i].seedz = seedz;
 
-            seedx = (seedx * (7+seedz%5) / (5 +seedz%3) * (seedz % 2 == 0 ? -1 : 1)) % 15485863;
-            seedz = (seedz * (13+seedx%17)/(11+seedx%7) * (seedx % 2 == 0 ? 1 : -1)) % 15485863;
+            seedx = (seedx * (7+seedz%5) / (5 +seedz%3) * (seedz % 2 == 0 ? -1 : 1)) % 99991;
+            seedz = (seedz * (13+seedx%17)/(11+seedx%7) * (seedx % 2 == 0 ? 1 : -1)) % 99991;
         }
         return waves;
     }
