@@ -12,7 +12,6 @@ public class TerrainType
     public bool flat;
 
     public float[] heatCutoffs; // Heat changes variation of the terraintype. Eg: Desert -> Plain -> Forest -> Snowy forest, all have same height
-    public GameObject[] spawnableResource;
     public Color[] color;
     
 }

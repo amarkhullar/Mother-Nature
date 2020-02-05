@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ public class HexTileMapGenerator : MonoBehaviour
     //                                  in clusters, maybe with more perlin noise?
     //                                  do metals spawn in place of stone, or are they completely separate?
     //       Needs to be discussed ^^^
+    //       Allow for a static seed to be used.
 
     [SerializeField]
     public TerrainData data;
@@ -27,13 +29,19 @@ public class HexTileMapGenerator : MonoBehaviour
     [SerializeField]
     public float heatNoiseScale;
     [SerializeField]
-    public int heightWaves;
+    public int heightWaves = 1;
     [SerializeField]
-    public int heatWaves;
+    public int heatWaves = 1;
+    [SerializeField]
+    public int resourceWaves = 1;
+    [SerializeField]
+    public int generationSeed;
+    public int seedRotation = 1;
 
 
     private HexTile[] tiles;
     private TerrainType[] terrains;
+    private Dictionary<ResourceTypeEnum, ResourceSpawnData> resourceData;
 
     // Start is called before the first frame update
     void Awake()
@@ -46,6 +54,7 @@ public class HexTileMapGenerator : MonoBehaviour
     void LoadTerrainData()
     {
         terrains = data.GetTerrainTypes();
+        resourceData = data.GetResourceData();
     }
 
     void CreateTiles()
@@ -85,8 +94,10 @@ public class HexTileMapGenerator : MonoBehaviour
             zs[i] = tiles[i].z;
         }
 
-        Wave[] heightws = NoiseGeneration.generateRandomWaves(heightWaves);
-        Wave[] heatws = NoiseGeneration.generateRandomWaves(heatWaves);
+        Wave[] heightws = NoiseGeneration.generateWaves(heightWaves, generationSeed);
+        generationSeed += seedRotation;
+        Wave[] heatws = NoiseGeneration.generateWaves(heatWaves, generationSeed);
+        generationSeed += seedRotation;
 
         float[] heightMap = NoiseGeneration.GetNoiseAtPoints(xs, zs, heightNoiseScale, 0, 0, heightws);
         float[] heatMap = NoiseGeneration.GetNoiseAtPoints(xs, zs, heatNoiseScale, 0, 0, heatws);
@@ -96,8 +107,51 @@ public class HexTileMapGenerator : MonoBehaviour
 
         for (int i = 0; i < tiles.Length; i++)
         {
+            tiles[i].heat = heatMap[i];
+            tiles[i].height = heightMap[i];
             tiles[i].transform.Translate(0, actualHeights[i] * heightMultiplier, 0);
             if(tiles[i].top != null) tiles[i].top.transform.Translate(0, actualHeights[i] * heightMultiplier, 0);
+        }
+
+        GenerateResources(heightMap, heatMap);
+    }
+
+    void GenerateResources(float[] heightMap, float[] heatMap)
+    {
+        float[] xs = new float[mapWidth * mapHeight];
+        float[] zs = new float[mapWidth * mapHeight];
+
+        for(int i = 0; i < tiles.Length; i++)
+        {
+            xs[i] = tiles[i].x;
+            zs[i] = tiles[i].z;
+        }
+
+        Dictionary<ResourceTypeEnum, float[]> noise = new Dictionary<ResourceTypeEnum, float[]>();
+
+        foreach (ResourceTypeEnum rt in resourceData.Keys)
+        {
+            noise.Add(rt, NoiseGeneration.GetNoiseAtPoints(xs, zs, resourceData[rt].noiseScale, 0, 0, NoiseGeneration.generateWaves(resourceWaves, generationSeed)));
+            generationSeed += seedRotation;
+        }
+
+        for (int i = 0; i < heightMap.Length; i++)
+        {
+            if(heightMap[i] < terrains[0].heightCutoff) continue; // Don't spawn anything in water.
+
+            ResourceTypeEnum chosenType = ResourceTypeEnum.NONE;
+            foreach(ResourceTypeEnum rt in noise.Keys)
+            {
+                double bar = resourceData[rt].chanceAtPreferred - (Math.Abs(resourceData[rt].preferredHeight - heightMap[i]) * resourceData[rt].heightDropoff)
+                                                                - (Math.Abs(resourceData[rt].preferredHeat - heatMap[i]) * resourceData[rt].heatDropoff);
+                //Debug.Log(bar + "::" + noise[rt][i]);
+                if(noise[rt][i] < bar){
+                     chosenType = rt;
+                     break;
+                }
+            }
+            if(chosenType != ResourceTypeEnum.NONE)
+                tiles[i].SetResourceOnTile(resourceData[chosenType].spawnableObject);
         }
     }
 
@@ -113,7 +167,7 @@ public class HexTileMapGenerator : MonoBehaviour
     {
         float[] actualHeights = new float[heightMap.Length];
 
-        Dictionary<TerrainType, Wave[]> waves = new Dictionary<TerrainType, Wave[]>();
+        // Dictionary<TerrainType, Wave[]> waves = new Dictionary<TerrainType, Wave[]>();
 
         for (int i = 0; i < heightMap.Length; i++)
         {
