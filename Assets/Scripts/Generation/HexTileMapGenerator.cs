@@ -31,6 +31,7 @@ public class HexTileMapGenerator : MonoBehaviour
     [SerializeField]
     public int heatWaves;
 
+
     private HexTile[] tiles;
     private TerrainType[] terrains;
 
@@ -62,7 +63,7 @@ public class HexTileMapGenerator : MonoBehaviour
     void CreateTile(int x, int z, int i)
     {
         Vector3 position;
-        position.x = (x + z * 0.5f - z / 2) * HexTileMetrics.distBetween; // nb: z/2 and z*0.5f are different. z/2 rounds down. z*0.5f doesn't.
+        position.x = (x + z * 0.5f - z / 2) * HexTileMetrics.distBetween; // nb: z/2 and z*0.5f are different. z/2 rounds down (because ints). z*0.5f doesn't.
         position.y = 0f;                                                  // ^^ this means that you end up with a slightly staggered pattern.
         position.z = z * (HexTileMetrics.distBetween - 1f);
 
@@ -80,8 +81,8 @@ public class HexTileMapGenerator : MonoBehaviour
 
         for(int i = 0; i < tiles.Length; i++)
         {
-            xs[i] = tiles[i].transform.position.x;
-            zs[i] = tiles[i].transform.position.z;
+            xs[i] = tiles[i].x;
+            zs[i] = tiles[i].z;
         }
 
         Wave[] heightws = NoiseGeneration.generateRandomWaves(heightWaves);

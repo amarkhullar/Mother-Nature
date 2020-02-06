@@ -10,10 +10,14 @@ public class ActionsTest : MonoBehaviour {
 	public SteamVR_Action_Boolean teleportAction; // 2a
 	public SteamVR_Action_Boolean grabAction; // 3
 
+	public GameObject cloud;
+  public GameObject cloudPlane;
+
 	// Update is called once per frame
 	void Update () {
 		if (GetTeleportDown()){
     	print("Teleport " + handType);
+
 		}
 
 		if (GetGrab()){

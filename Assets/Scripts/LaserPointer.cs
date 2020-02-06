@@ -13,6 +13,12 @@ public class LaserPointer : MonoBehaviour {
 	private Transform laserTransform;
 	private Vector3 hitPoint;
 
+	// Cloud Planes
+	public GameObject cloud;
+	private Collider cloudCollider;
+	public GameObject cloudPlane;
+	private Collider cloudPlaneCollider;
+
 	public Transform cameraRigTransform;
 	public GameObject teleportReticlePrefab;
 	private GameObject reticle;
@@ -24,6 +30,10 @@ public class LaserPointer : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		// collider components to toggle
+		cloudCollider = cloud.GetComponent<Collider>();
+		cloudPlaneCollider = cloudPlane.GetComponent<Collider>();
+
 		laser = Instantiate(laserPrefab);
 		laserTransform = laser.transform;
 		reticle = Instantiate(teleportReticlePrefab);
@@ -34,6 +44,11 @@ public class LaserPointer : MonoBehaviour {
 	void Update () {
 		if (teleportAction.GetState(handType)){
     	RaycastHit hit;
+
+			// enable collider when trigger is pressed
+			cloudCollider.enabled = true;
+			cloudPlaneCollider.enabled = true;
+
 			if (Physics.Raycast(controllerPose.transform.position, transform.forward, out hit, 100, teleportMask)){
 				 	hitPoint = hit.point;
         	ShowLaser(hit);
@@ -47,6 +62,10 @@ public class LaserPointer : MonoBehaviour {
 		}
 		if (teleportAction.GetStateUp(handType) && shouldTeleport){
     	Teleport();
+
+			// disable collider when trigger is released
+			cloudCollider.enabled = false;
+			cloudPlaneCollider.enabled = false;
 		}
 	}
 

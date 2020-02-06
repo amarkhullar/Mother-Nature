@@ -40,6 +40,8 @@ public class HexTile : MonoBehaviour
         triangles.Clear();
 
         // Top Hexagonal plate
+
+        // NB: Probs able to change the *scale's by updating HexTileMetrics, if performance gains are needed.
         Vector3 center = transform.localPosition;
         for (int i = 0; i < 6; i++)
         {
@@ -110,9 +112,9 @@ public class HexTile : MonoBehaviour
         if(go.GetComponent<Building>() == null && go.GetComponent<ResourceObject>() == null) Debug.LogWarning("Should this object have a resource/building script?");
 
         Destroy(top);
-        top = Instantiate(go, transform.position, Quaternion.identity);
-        top.transform.SetParent(transform, false);
-        top.transform.Translate(0, 0.5f, 0);
+        top = Instantiate(go);
+        top.transform.SetParent(gameObject.transform, false);
+        top.transform.localPosition = gameObject.transform.localPosition;
     }
 
     public void ResetMaterialColor()

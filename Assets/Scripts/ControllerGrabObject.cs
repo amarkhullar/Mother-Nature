@@ -76,7 +76,7 @@ public class ControllerGrabObject : MonoBehaviour {
 				//Add the speed and rotation of the controller when released
         objectInHand.GetComponent<Rigidbody>().velocity = controllerPose.GetVelocity();
         objectInHand.GetComponent<Rigidbody>().angularVelocity = controllerPose.GetAngularVelocity();
-		
+
    	}
     objectInHand = null;
 	}
@@ -88,9 +88,9 @@ public class ControllerGrabObject : MonoBehaviour {
     		if (collidingObject){
 				AbilityObject script = collidingObject.GetComponent<AbilityObject>();
 				if (script != null){
-					if (collidingObject.GetComponent<AbilityObject>().ability == true){
+					if (true){
 						//Cooldown complete, do shit
-            			abilityObject = collidingObject;
+            abilityObject = collidingObject;
 						InitAbilityObject();
 						GrabAbilityObject();
 					} else {
