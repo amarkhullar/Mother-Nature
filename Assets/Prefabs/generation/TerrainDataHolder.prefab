@@ -50,7 +50,6 @@ MonoBehaviour:
     heightShift: 0
     flat: 1
     heatCutoffs: []
-    spawnableResource: []
     color:
     - {r: 0, g: 0.8247895, b: 1, a: 0}
   - name: Coast
@@ -59,7 +58,6 @@ MonoBehaviour:
     heightShift: 0
     flat: 0
     heatCutoffs: []
-    spawnableResource: []
     color:
     - {r: 1, g: 0.96657693, b: 0, a: 0}
   - name: Plains
@@ -72,11 +70,6 @@ MonoBehaviour:
     - 0.5
     - 0.7
     - 1
-    spawnableResource:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 5656091662007184684, guid: e191c3bfc3f615f7cb31544d561d02ef, type: 3}
-    - {fileID: 5656091662007184684, guid: e191c3bfc3f615f7cb31544d561d02ef, type: 3}
     color:
     - {r: 1, g: 0.7130058, b: 0, a: 0}
     - {r: 0, g: 1, b: 0.008504152, a: 0}
@@ -92,11 +85,6 @@ MonoBehaviour:
     - 0.5
     - 0.8
     - 1
-    spawnableResource:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 5656091662007184684, guid: e191c3bfc3f615f7cb31544d561d02ef, type: 3}
-    - {fileID: 5656091662007184684, guid: e191c3bfc3f615f7cb31544d561d02ef, type: 3}
     color:
     - {r: 0.8301887, g: 0.81875014, b: 0.30936277, a: 0}
     - {r: 0.28782484, g: 0.7264151, b: 0.35245, a: 0}
@@ -104,10 +92,55 @@ MonoBehaviour:
     - {r: 0.6698113, g: 0.6698113, b: 0.6698113, a: 0}
   - name: Mountains
     heightCutoff: 1
-    heightScale: 35
-    heightShift: -5.8
+    heightScale: 23
+    heightShift: -2.8
     flat: 0
     heatCutoffs: []
-    spawnableResource: []
     color:
     - {r: 0.9150943, g: 0.9150943, b: 0.9150943, a: 0}
+  resourceSpawnData:
+  - resourceType: 2
+    chanceAtPreferred: 0.7
+    preferredHeight: 0.7
+    preferredHeat: 0.8
+    heightDropoff: 0.6
+    heatDropoff: 1
+    noiseScale: 2
+    spawnableObject: {fileID: 5656091662007184684, guid: e191c3bfc3f615f7cb31544d561d02ef,
+      type: 3}
+  - resourceType: 1
+    chanceAtPreferred: 0.3
+    preferredHeight: 0.5
+    preferredHeat: 0.6
+    heightDropoff: 0
+    heatDropoff: 0.2
+    noiseScale: 0.8
+    spawnableObject: {fileID: 3324901476417248458, guid: c720ddcdc67cbd37da41e928ac73e692,
+      type: 3}
+  - resourceType: 3
+    chanceAtPreferred: 0.2
+    preferredHeight: 0.55
+    preferredHeat: 0.5
+    heightDropoff: 0
+    heatDropoff: 0
+    noiseScale: 0.8
+    spawnableObject: {fileID: 738679000441756874, guid: 2b8f23d009573e88abaf7195ece1efa6,
+      type: 3}
+  - resourceType: 4
+    chanceAtPreferred: 0.15
+    preferredHeight: 0.8
+    preferredHeat: 0.5
+    heightDropoff: 0.05
+    heatDropoff: 0
+    noiseScale: 0.2
+    spawnableObject: {fileID: 4547024427383330392, guid: f40072259480b27f0b3aa9cc9c45f9bd,
+      type: 3}
+  - resourceType: 5
+    chanceAtPreferred: 0.2
+    preferredHeight: 0.5
+    preferredHeat: 0.5
+    heightDropoff: 0.05
+    heatDropoff: 0.05
+    noiseScale: 0.1
+    spawnableObject: {fileID: 2005008493878438395, guid: 6c5bd3255f937d3e9835ee6082ea3ce3,
+      type: 3}

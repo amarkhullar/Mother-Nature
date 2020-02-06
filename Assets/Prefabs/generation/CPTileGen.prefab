@@ -52,3 +52,6 @@ MonoBehaviour:
   heatNoiseScale: 3
   heightWaves: 5
   heatWaves: 5
+  resourceWaves: 2
+  generationSeed: 12548500
+  seedRotation: 1

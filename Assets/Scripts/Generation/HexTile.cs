@@ -20,7 +20,11 @@ public class HexTile : MonoBehaviour
     public bool isAlive = true; // TODO Come up with better name.
     public GameObject top; // Displayed Object
     public ResourceTypeEnum resourceType = ResourceTypeEnum.NONE; // Could be changed to ResourceObject, then inherit the script from the tree/rock placed on top.
-    // Maybe some value of how much is left? Could be put in ResourceObject if doing ^^^.
+    public int resourceAmount;
+
+    // FOR DEBUG ONLY
+    public float heat;
+    public float height;
 
     private void Awake()
     {
@@ -52,12 +56,11 @@ public class HexTile : MonoBehaviour
             );
         }
 
-        int sideHeight = 20;
         // Sides
         for(int i = 0; i < 6; i++)
         {
-            Vector3 lowa = new Vector3(HexTileMetrics.corners[i].x, HexTileMetrics.corners[i].y-sideHeight, HexTileMetrics.corners[i].z);
-            Vector3 lowb = new Vector3(HexTileMetrics.corners[i+1].x, HexTileMetrics.corners[i+1].y-sideHeight, HexTileMetrics.corners[i+1].z);
+            Vector3 lowa = new Vector3(HexTileMetrics.corners[i].x, HexTileMetrics.corners[i].y-HexTileMetrics.height, HexTileMetrics.corners[i].z);
+            Vector3 lowb = new Vector3(HexTileMetrics.corners[i+1].x, HexTileMetrics.corners[i+1].y-HexTileMetrics.height, HexTileMetrics.corners[i+1].z);
             AddTriangle(
                 center + HexTileMetrics.corners[i],
                 center + lowa,
@@ -96,7 +99,7 @@ public class HexTile : MonoBehaviour
         terrain = t;
         terrainVariation = var;
         SetMaterialColor(t.color[var]);
-
+        /*
         if (t.spawnableResource.Length > var)
             if(t.spawnableResource[var] != null)
             {
@@ -104,7 +107,20 @@ public class HexTile : MonoBehaviour
                 SetObjectOnTile(go);
                 resourceType = go.GetComponent<ResourceObject>().resourceType;
             }
+            */
+    }
 
+    // Should not be used outside of generation.
+    public void SetResourceOnTile(GameObject go){
+        SetObjectOnTile(go);
+        if(go.GetComponent<ResourceObject>() == null)
+        {
+            Debug.LogWarning("Should this object have a resource/building script?");
+            return;
+        }
+
+        resourceType = go.GetComponent<ResourceObject>().resourceType;
+        resourceAmount = 100;
     }
 
     public void SetObjectOnTile(GameObject go)

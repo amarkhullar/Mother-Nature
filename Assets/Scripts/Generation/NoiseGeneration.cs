@@ -1,3 +1,4 @@
+using System;
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,8 +15,31 @@ public static class NoiseGeneration
             waves[i] = new Wave();
             waves[i].amplitude = (i + 1) * 2;
             waves[i].frequency = 1 / (2f * (i + 1f));
-            waves[i].seedx = Random.value * 1000;
-            waves[i].seedz = Random.value * 1000;
+            waves[i].seedx = UnityEngine.Random.value * 1000;
+            waves[i].seedz = UnityEngine.Random.value * 1000;
+        }
+        return waves;
+    }
+
+    // Provides a way to generate the same waves with the same inputs. It's probably not great, but hey it probably works.
+    // All seed numbers essentially chosen at random, hoping that this can make use of perlin noise's property of looking mostly indistinguishable at any point
+    public static Wave[] generateWaves(int n, int seed)
+    {
+        Wave[] waves = new Wave[n];
+
+        float seedx = (seed * (7+seed%7) / (5 +seed%5) * (seed % 2 == 0 ? -1 : 1)) % 99991;
+        float seedz = (seed * (13+seed%13)/(11+seed%11)* (seed % 2 == 0 ? 1 : -1)) % 99991;
+
+        for (int i = 0; i < n; i++)
+        {
+            waves[i] = new Wave();
+            waves[i].amplitude = (i + 1) * 2;
+            waves[i].frequency = 1 / (2f * (i + 1f));
+            waves[i].seedx = seedx;
+            waves[i].seedz = seedz;
+
+            seedx = (seedx * (7+seedz%5) / (5 +seedz%3) * (seedz % 2 == 0 ? -1 : 1)) % 99991;
+            seedz = (seedz * (13+seedx%17)/(11+seedx%7) * (seedx % 2 == 0 ? 1 : -1)) % 99991;
         }
         return waves;
     }
@@ -67,7 +91,6 @@ public static class NoiseGeneration
                 normalization += w.amplitude;
             }
             noise /= normalization;
-
             noiseMap[i] = noise;
         }
 
