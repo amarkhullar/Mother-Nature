@@ -12,6 +12,7 @@ public class CityPlayer : MonoBehaviour
     private HexTile selectedTile;
 
     public Dictionary<ResourceTypeEnum, double> resources = new Dictionary<ResourceTypeEnum, double>();
+    public bool controlledByThisComputer = false;
 
     [SerializeField]
     public GameObject buildMenuObj;
@@ -21,6 +22,7 @@ public class CityPlayer : MonoBehaviour
     public BuildingList buildingList;
 
     public void Start(){
+        if(!controlledByThisComputer) return;
         foreach(ResourceTypeEnum rte in Enum.GetValues(typeof(ResourceTypeEnum))){
             if(rte == ResourceTypeEnum.NONE) continue;
             resources.Add(rte, 100);
@@ -29,6 +31,7 @@ public class CityPlayer : MonoBehaviour
 
     public void Update()
     {
+        if(!controlledByThisComputer) return;
         // TODO: Maybe move clicks to a IPointerClickHandler/IPointerDownHandler/IPointerUpHandler
         //       ^^ only bother if we end up with a lot of objects that are checking for clicks
         if(!IsPointerOverUIObject()) // Stops a raycast when over a button

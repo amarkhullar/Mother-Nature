@@ -24,6 +24,9 @@ public class LaserPointer : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		SceneVariables.vrscene = true; // I have no idea where is the best place to put this line, this seems like a reasonable place.
+		// Tl;dr: it should fix curser hovering over tiles issue. Ie: the "blue tile that flies around" or however it was described. Hopefully. -Laurence
+
 		laser = Instantiate(laserPrefab);
 		laserTransform = laser.transform;
 		reticle = Instantiate(teleportReticlePrefab);

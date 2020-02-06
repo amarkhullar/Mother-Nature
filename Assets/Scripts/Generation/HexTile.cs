@@ -170,12 +170,16 @@ public class HexTile : MonoBehaviour
     // TODO: See if this works better on a decent pc when compiled, a bit behind for me rn.
     public Color prev; // public to allow for a tad bit of a hack from CityPlayer.cs - should find a better way to do this.
     public void OnMouseEnter(){
-        prev = GetComponent<MeshRenderer>().material.color;
-        SetMaterialColor(Color.blue);
+        if(!SceneVariables.vrscene)
+        {
+            prev = GetComponent<MeshRenderer>().material.color;
+            SetMaterialColor(Color.blue);
+        }
     }
 
     public void OnMouseExit(){
-        SetMaterialColor(prev);
+        if(!SceneVariables.vrscene)
+            SetMaterialColor(prev);
     }
 
 }
