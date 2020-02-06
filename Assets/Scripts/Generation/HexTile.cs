@@ -20,7 +20,7 @@ public class HexTile : MonoBehaviour
     public bool isAlive = true; // TODO Come up with better name.
     public GameObject top; // Displayed Object
     public ResourceTypeEnum resourceType = ResourceTypeEnum.NONE; // Could be changed to ResourceObject, then inherit the script from the tree/rock placed on top.
-    public int resourceAmount;
+    public double resourceAmount;
 
     // FOR DEBUG ONLY
     public float heat;
@@ -123,7 +123,7 @@ public class HexTile : MonoBehaviour
         resourceAmount = 100;
     }
 
-    public void SetObjectOnTile(GameObject go)
+    public GameObject SetObjectOnTile(GameObject go)
     {
         if(go.GetComponent<Building>() == null && go.GetComponent<ResourceObject>() == null) Debug.LogWarning("Should this object have a resource/building script?");
 
@@ -131,6 +131,8 @@ public class HexTile : MonoBehaviour
         top = Instantiate(go);
         top.transform.SetParent(gameObject.transform, false);
         top.transform.localPosition = gameObject.transform.localPosition;
+
+        return top;
     }
 
     public void ResetMaterialColor()
@@ -148,15 +150,20 @@ public class HexTile : MonoBehaviour
 
     //////// END TILE GENERATION ////////
 
-    public void PlaceBuilding(GameObject go)
+    public bool PlaceBuilding(GameObject go, CityPlayer owner)
     {
         Building bscript = go.GetComponent<Building>();
-        if(bscript != null)
+        if(bscript != null && ((bscript.placedOnWater && this.terrain.name.Equals("Water")) || (!this.terrain.name.Equals("Water"))))
         {
-            SetObjectOnTile(go);
-            // TODO: Is there really anything else to do here though? Feels like there should but I've got no bloody clue.
+            GameObject g2 = SetObjectOnTile(go);
+            Building bscript2 = g2.GetComponent<Building>();
+            bscript2.owner = owner;
+            bscript2.tile = this;
+            bscript2.location = new Vector2(x,z);
+            return true;
         }
         else Debug.LogWarning("Cannot place a non building as a building.");
+        return false;
     }
 
     // Tile Highlighting:

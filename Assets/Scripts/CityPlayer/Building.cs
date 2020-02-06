@@ -8,20 +8,28 @@ public class Building : MonoBehaviour
     // Some temporary attributes, TODO: check what's actually needed etc.
     [SerializeField] public bool destroysResourceOnPlace; // this can probably be replaced by a "yes, unless resource appears in consumption"
     [SerializeField] private ResourceTypeEnum[] resourceConsumptionInita = null; // workaround bc unity hates dicts >:[
-    [SerializeField] private float[] resourceConsumptionInitb = null;
+    [SerializeField] private double[] resourceConsumptionInitb = null;
     [SerializeField] private ResourceTypeEnum[] buildCostInita = null;
-    [SerializeField] private float[] buildCostInitb = null;
+    [SerializeField] private double[] buildCostInitb = null;
     [SerializeField] public ResourceTypeEnum requiresResourceOnTile = ResourceTypeEnum.NONE ;
+    [HideInInspector] public Vector2 location;
+    [HideInInspector] public HexTile tile;
     // pollution/sec? resource usage/sec? (ie on the tile, so like basic logger may use 1wood/sec and produce 1/sec, but super eco logger xtreme might be 0.5/sec for 5/sec)
 
     [SerializeField] public int maxHealth = 100;
-    public float curHealth;
-    public float productivityRate = 1f;
+    public double curHealth;
+    public double productivityRate = 1;
+    public double tileResourceUsage = 0;
 
-    public Dictionary<ResourceTypeEnum, float> resourceConsumption = new Dictionary<ResourceTypeEnum,float>(); // -ve value for production
-    public Dictionary<ResourceTypeEnum, float> buildCost = new Dictionary<ResourceTypeEnum, float>(); // -ve value for production
+    // If we run out of resources. TODO: Double check this system. It should work okay, but may flip flop between full productivity for 1 resource then off.
+    private double prevProductivityRate = 1;
+    private bool stopped = false;
+    public bool placedOnWater = false;
 
-    public CityPlayer owner;
+    public Dictionary<ResourceTypeEnum, double> resourceConsumption = new Dictionary<ResourceTypeEnum,double>(); // -ve value for production
+    public Dictionary<ResourceTypeEnum, double> buildCost = new Dictionary<ResourceTypeEnum, double>(); // -ve value for production
+
+    [HideInInspector] public CityPlayer owner;
 
     public void Start(){
         // Transfers the init arrays to the dicts. Yuck.
@@ -55,14 +63,50 @@ public class Building : MonoBehaviour
         }
 
         // Change player resources
+        bool enough = true;
         foreach (ResourceTypeEnum rte in resourceConsumption.Keys)
         {
             owner.resources[rte] -= resourceConsumption[rte] * Time.deltaTime * productivityRate;
+            if(owner.resources[rte] < 0)
+            {
+                owner.resources[rte] = 0;
+                enough = false;
+            }
         }
+
+        if(tileResourceUsage != 0)
+        {
+            if(tile.resourceAmount > 0)
+                tile.resourceAmount -= tileResourceUsage * Time.deltaTime * productivityRate;
+
+            else
+                enough = false; // IE: Building is spent up.
+        }
+
+        // Ran out of resources
+        if(!enough && !stopped)
+        {
+            prevProductivityRate = productivityRate;
+            productivityRate = 0;
+            stopped = true;
+        }
+
+        // Regained Resources
+        if(enough && stopped)
+        {
+            productivityRate = prevProductivityRate;
+            stopped = false;
+        }
+
     }
 
     public void OnDeconstruction()
     {
         // Regain some resources from the building cost? Maybe 25%? Really discourage dismantling?
+        double regainRate = 0.25;
+        foreach (ResourceTypeEnum rte in buildCost.Keys)
+        {
+            owner.resources[rte] += buildCost[rte] * regainRate;
+        }
     }
 }

@@ -11,7 +11,7 @@ public class CityPlayer : MonoBehaviour
     private GameObject selectedObject; // TODO: Check if this is necessary or if can skip and just use hextile
     private HexTile selectedTile;
 
-    public Dictionary<ResourceTypeEnum, float> resources = new Dictionary<ResourceTypeEnum, float>();
+    public Dictionary<ResourceTypeEnum, double> resources = new Dictionary<ResourceTypeEnum, double>();
 
     [SerializeField]
     public GameObject buildMenuObj;
@@ -20,14 +20,14 @@ public class CityPlayer : MonoBehaviour
     [SerializeField]
     public BuildingList buildingList;
 
-    void Start(){
+    public void Start(){
         foreach(ResourceTypeEnum rte in Enum.GetValues(typeof(ResourceTypeEnum))){
             if(rte == ResourceTypeEnum.NONE) continue;
-            resources.Add(rte, 0);
+            resources.Add(rte, 100);
         }
     }
 
-    void Update()
+    public void Update()
     {
         // TODO: Maybe move clicks to a IPointerClickHandler/IPointerDownHandler/IPointerUpHandler
         //       ^^ only bother if we end up with a lot of objects that are checking for clicks
@@ -109,7 +109,6 @@ public class CityPlayer : MonoBehaviour
 
     public void OnBuildButtonPress(GameObject building)
     {
-        // TODO: Reduce resources based on building cost.
         // TODO: Proper failure/returning which requirements are failed. Should be done in the menu construction/updating?
 
         Building b = building.GetComponent<Building>();
@@ -127,9 +126,9 @@ public class CityPlayer : MonoBehaviour
         }
 
         // PlaceBuilding() checks the validity of the building
-        selectedTile.PlaceBuilding(building);
-        b.owner = this; // TODO: Check why this occasionally fails.
+        selectedTile.PlaceBuilding(building, this);
 
+        // Remove resources
         foreach(ResourceTypeEnum rte in b.buildCost.Keys)
         {
             resources[rte] -= b.buildCost[rte];
