@@ -29,7 +29,7 @@ public class AICityPlayer : CityPlayer
             t = hexMap.GetHexTile((int) startLocation.x, (int) startLocation.y);
         }
 
-
+        Debug.Log(startLocation + ":" + hexMap.mapWidth + ":" + hexMap.mapHeight);
         eligibleLocations.Add(startLocation);
         timeWaited = waitTime - 50;
     }
@@ -47,7 +47,9 @@ public class AICityPlayer : CityPlayer
 
         if(timeWaited == 0)
         {
-            Vector2 loc = eligibleLocations[(int) (Random.value * eligibleLocations.Count)];
+            int value = (int) (Random.value * eligibleLocations.Count);
+            Debug.Log(value + ":" + eligibleLocations.Count);
+            Vector2 loc = eligibleLocations[value];
             HexTile tile = hexMap.GetHexTile((int) loc.x, (int) loc.y);
             ResourceTypeEnum rt = tile.resourceType;
             GameObject selectedBuilding = null;

@@ -22,7 +22,7 @@ public class CityPlayer : MonoBehaviour
     public BuildingList buildingList;
 
     public void Start(){
-        if(!controlledByThisComputer) return;
+      //  if(!controlledByThisComputer) return;
         foreach(ResourceTypeEnum rte in Enum.GetValues(typeof(ResourceTypeEnum))){
             if(rte == ResourceTypeEnum.NONE) continue;
             resources.Add(rte, 100);

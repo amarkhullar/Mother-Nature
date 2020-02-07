@@ -17,6 +17,7 @@ public class BaseAbility : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision col){
+		Debug.Log(col);
 		shelfController.CollisionDetected(this, col);
 	}
 
