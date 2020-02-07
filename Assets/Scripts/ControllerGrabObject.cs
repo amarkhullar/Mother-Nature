@@ -86,7 +86,7 @@ public class ControllerGrabObject : MonoBehaviour {
 	void Update () {
 		if (grabAction.GetLastStateDown(handType)){
     		if (collidingObject){
-				AbilityObject script = collidingObject.GetComponent<AbilityObject>();
+				BaseAbility script = collidingObject.GetComponent<BaseAbility>();
 				if (script != null){
 					if (true){
 						//Cooldown complete, do shit

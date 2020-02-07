@@ -4,66 +4,61 @@ using UnityEngine;
 using Valve.VR;
 
 public class ShelfController : MonoBehaviour {
-	public GameObject baseAbility;
+	public BaseAbility baseAbility;
 	public GameObject shelf;
 
-	private Vector3 scale = new Vector3(0.005f, 0.005f, 0.005f);
+	private static int numOfAbilities = 5;
+	private BaseAbility[] abilities = new BaseAbility[numOfAbilities];
 
-	private GameObject ability1;
-	private GameObject ability2;
-	private GameObject ability3;
-	private Vector3 ability1Pos;
-	private Vector3 ability2Pos;
-	private Vector3 ability3Pos;
+	private static Vector3 basePosition = new Vector3(-0.02f, 0.005f, -0.002f);
+	private static Vector3 incPosition = new Vector3(0.01f, 0.0f, 0.0f);
+	private static Vector3 scale = new Vector3(0.005f, 0.005f, 0.005f);
 
+	// private bool timerActive = true;
 
-	void InitPositions(){
-		ability1Pos = new Vector3(-0.02f, 0.005f, -0.002f);
-		ability2Pos = new Vector3(-0.01f, 0.005f, -0.002f);
-		ability3Pos = new Vector3(0.0f, 0.005f, -0.002f);
-	}
-
-	void InitAbility1(){
-		ability1 = Instantiate(baseAbility);
-		ability1.transform.parent = shelf.transform;
-		ability1.transform.localPosition = ability1Pos;
-		ability1.transform.localScale = scale;
-	}
-
-	void InitAbility2(){
-		ability2 = Instantiate(baseAbility);
-		ability2.transform.parent = shelf.transform;
-		ability2.transform.localPosition = ability2Pos;
-		ability2.transform.localScale = scale;
-	}
-
-	void InitAbility3(){
-		ability3 = Instantiate(baseAbility);
-		ability3.transform.parent = shelf.transform;
-		ability3.transform.localPosition = ability3Pos;
-		ability3.transform.localScale = scale;
-	}
-
-	// Use this for initialization
 	void Start () {
-		InitPositions();
-
-		InitAbility1();
-		InitAbility2();
-		InitAbility3();
-
+		for (int i = 0; i < numOfAbilities; i++) {
+			ActivateAbility(i);
+		}
 	}
+
+	void ActivateAbility(int pos) {
+
+		if (abilities[pos] == null) {
+			abilities[pos] = Instantiate<BaseAbility>(baseAbility);
+			abilities[pos].transform.parent = shelf.transform;
+			abilities[pos].transform.localPosition = basePosition + (pos * incPosition);
+			abilities[pos].transform.localScale = scale;
+			abilities[pos].setShelfIndex(pos);
+		}
+	}
+
+	void DeactivateAbility(BaseAbility ability) {
+		Destroy(ability.gameObject);
+	}
+
+	IEnumerator CooldownAbility(BaseAbility ability) {
+		DeactivateAbility(ability);
+		yield return new WaitForSeconds(2);
+		ActivateAbility(ability.getShelfIndex());
+	}
+
+	public void CollisionDetected(BaseAbility ability, Collision col) {
+		Debug.Log(col.collider.name);
+
+		if (col.collider.name == ("HexagonalTile(Clone)")) {
+			GameObject obj = col.gameObject;
+			obj.GetComponent<MeshRenderer>().material.color = Color.red;
+			StartCoroutine(CooldownAbility(ability));
+		}
+		else {
+			//DeactivateAbility(ability);
+		}
+	}
+
 
 	// Update is called once per frame
 	void Update () {
-		if (ability1 == null){
-			InitAbility1();
-		}
-		if (ability2 == null){
-			InitAbility2();
-		}
-		if (ability3 == null){
-			InitAbility3();
-		}
+
 	}
 }
