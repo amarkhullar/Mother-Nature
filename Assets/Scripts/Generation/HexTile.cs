@@ -47,14 +47,26 @@ public class HexTile : MonoBehaviour
 
         // NB: Probs able to change the *scale's by updating HexTileMetrics, if performance gains are needed.
         Vector3 center = transform.localPosition;
-        for (int i = 0; i < 6; i++)
-        {
-            AddTriangle(
-                center,
-                center + HexTileMetrics.corners[i],
-                center + HexTileMetrics.corners[i + 1]
-            );
-        }
+        AddTriangle(
+            center + HexTileMetrics.corners[0],
+            center + HexTileMetrics.corners[1],
+            center + HexTileMetrics.corners[2]
+        );
+        AddTriangle(
+            center + HexTileMetrics.corners[0],
+            center + HexTileMetrics.corners[2],
+            center + HexTileMetrics.corners[3]
+        );
+        AddTriangle(
+            center + HexTileMetrics.corners[0],
+            center + HexTileMetrics.corners[3],
+            center + HexTileMetrics.corners[5]
+        );
+        AddTriangle(
+            center + HexTileMetrics.corners[3],
+            center + HexTileMetrics.corners[4],
+            center + HexTileMetrics.corners[5]
+        );
 
         // Sides
         for(int i = 0; i < 6; i++)
