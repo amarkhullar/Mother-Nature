@@ -1,0 +1,246 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1828254630792106762
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 3177012867644394426, guid: 152c63d5c8bbb342899b176cb310bdd5,
+    type: 3}
+  m_PrefabInstance: {fileID: 3839397540845426864}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1686192751743326140}
+  - component: {fileID: 2100454049541981039}
+  - component: {fileID: 7207146012537155487}
+  m_Layer: 0
+  m_Name: default
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1686192751743326140
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 2463126941149318924, guid: 152c63d5c8bbb342899b176cb310bdd5,
+    type: 3}
+  m_PrefabInstance: {fileID: 3839397540845426864}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828254630792106762}
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 9153654826951607428}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &2100454049541981039
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 2913275273139100639, guid: 152c63d5c8bbb342899b176cb310bdd5,
+    type: 3}
+  m_PrefabInstance: {fileID: 3839397540845426864}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828254630792106762}
+  m_Mesh: {fileID: -2432090755550338912, guid: e945d715e73f37170b49a47684aa1f6a, type: 3}
+--- !u!23 &7207146012537155487
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 5858244843838371631, guid: 152c63d5c8bbb342899b176cb310bdd5,
+    type: 3}
+  m_PrefabInstance: {fileID: 3839397540845426864}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828254630792106762}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: -3033667219593020291, guid: e945d715e73f37170b49a47684aa1f6a, type: 3}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!1 &5283577000385803927
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 8942828283795533351, guid: 152c63d5c8bbb342899b176cb310bdd5,
+    type: 3}
+  m_PrefabInstance: {fileID: 3839397540845426864}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9153654826951607428}
+  m_Layer: 0
+  m_Name: WoodenCabinObj
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9153654826951607428
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 5350301824482286644, guid: 152c63d5c8bbb342899b176cb310bdd5,
+    type: 3}
+  m_PrefabInstance: {fileID: 3839397540845426864}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5283577000385803927}
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1686192751743326140}
+  m_Father: {fileID: 1122054231489971002}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7782256585884089165
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1122054231489971002}
+  - component: {fileID: 237352569347548944}
+  m_Layer: 0
+  m_Name: huntersShack
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1122054231489971002
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7782256585884089165}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.24050903, y: 86.49432, z: 31.355042}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_Children:
+  - {fileID: 9153654826951607428}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &237352569347548944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7782256585884089165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3a0b07d10e7b588a909540044d2bbec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroysResourceOnPlace: 0
+  resourceConsumptionInita: 01000000
+  resourceConsumptionInitb:
+  - -1
+  buildCostInita: 02000000
+  buildCostInitb:
+  - 10
+  requiresResourceOnTile: 1
+  location: {x: 95, y: 76}
+  tile: {fileID: 0}
+  maxHealth: 100
+  curHealth: 0
+  productivityRate: 1
+  tileResourceUsage: 1
+  placedOnWater: 0
+  owner: {fileID: 0}
+--- !u!1001 &3839397540845426864
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1122054231489971002}
+    m_Modifications:
+    - target: {fileID: 8942828283795533351, guid: 152c63d5c8bbb342899b176cb310bdd5,
+        type: 3}
+      propertyPath: m_Name
+      value: WoodenCabinObj
+      objectReference: {fileID: 0}
+    - target: {fileID: 5350301824482286644, guid: 152c63d5c8bbb342899b176cb310bdd5,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5350301824482286644, guid: 152c63d5c8bbb342899b176cb310bdd5,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5350301824482286644, guid: 152c63d5c8bbb342899b176cb310bdd5,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5350301824482286644, guid: 152c63d5c8bbb342899b176cb310bdd5,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5350301824482286644, guid: 152c63d5c8bbb342899b176cb310bdd5,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5350301824482286644, guid: 152c63d5c8bbb342899b176cb310bdd5,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5350301824482286644, guid: 152c63d5c8bbb342899b176cb310bdd5,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5350301824482286644, guid: 152c63d5c8bbb342899b176cb310bdd5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5350301824482286644, guid: 152c63d5c8bbb342899b176cb310bdd5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5350301824482286644, guid: 152c63d5c8bbb342899b176cb310bdd5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5350301824482286644, guid: 152c63d5c8bbb342899b176cb310bdd5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 152c63d5c8bbb342899b176cb310bdd5, type: 3}

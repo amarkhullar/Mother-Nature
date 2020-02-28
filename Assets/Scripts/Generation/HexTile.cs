@@ -194,4 +194,9 @@ public class HexTile : MonoBehaviour
             SetMaterialColor(prev);
     }
 
+    public Vector2 GetLocation()
+    {
+        return new Vector2(x, z);
+    }
+
 }

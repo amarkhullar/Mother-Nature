@@ -44,10 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3609eb5dcf743be3e8fb8da6e24144de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controlledByThisComputer: 0
   buildMenuObj: {fileID: 0}
   uicanvas: {fileID: 0}
   buildingList: {fileID: 3850190557329451026}
-  waitTime: 250
+  waitTime: 100
 --- !u!114 &3850190557329451026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,8 +62,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildings:
-  - {fileID: 7957153859863697155, guid: 9644738d359dfd488826bfdc2e5f5b81, type: 3}
+  - {fileID: 5079986991638955965, guid: dfd64b8c5dc5ef36bb1511c42d4daad0, type: 3}
   - {fileID: 7262238560964076772, guid: b0c31f1cf852811118ed7ff69fe31251, type: 3}
-  - {fileID: 439558899245451023, guid: f02247322b28c9e92b63155a36599541, type: 3}
-  - {fileID: 8148806012969246625, guid: f379a109d02326ff7b0d5263d47f321b, type: 3}
+  - {fileID: 8123407982534670977, guid: 9d3a70dc9784d9dcbb708e919e5bb35b, type: 3}
+  - {fileID: 7782256585884089165, guid: 256d6ef89db65c1559fd650f0bbe1704, type: 3}
   - {fileID: 5162109091622958649, guid: 376598a5456efe8c7a2efe9b4fe05b68, type: 3}
+  - {fileID: 7957153859863697155, guid: 9644738d359dfd488826bfdc2e5f5b81, type: 3}

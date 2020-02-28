@@ -7,6 +7,7 @@ public class HexTileMapGenerator : MonoBehaviour
 {
 
     // TODO: See if values need tweaking
+    // TODO: Reshape map, and in doing so fix all the indexing
 
     [SerializeField]
     public TerrainData data;
@@ -56,7 +57,7 @@ public class HexTileMapGenerator : MonoBehaviour
         tiles = new HexTile[mapHeight * mapWidth];
         for (int x = 0, i = 0; x < mapWidth; x++)
         {
-            for (int z = -x/2; z < mapHeight - x/2; z++)
+            for (int z = 0; z < mapHeight; z++)
             {
                 CreateTile(x, z, i++);
             }
@@ -198,7 +199,12 @@ public class HexTileMapGenerator : MonoBehaviour
 
     public HexTile GetHexTile(int x, int z)
     {
-        return this.tiles[x + z * mapWidth];
+        return this.tiles[z + x * mapWidth];
+    }
+
+    public List<HexTile> GetNeighbours(Vector2 v)
+    {
+        return GetNeighbours((int) v.x, (int) v.y);
     }
 
     public List<HexTile> GetNeighbours(int x, int z)
@@ -223,7 +229,7 @@ public class HexTileMapGenerator : MonoBehaviour
                     i += 1;
                 }
 
-                if(x + i >= 0 && z + j >= 0 && x < mapWidth && j < mapHeight)
+                if(x + i >= 0 && z + j >= 0 && x + i < mapWidth && z + j < mapHeight)
                   ns.Add(GetHexTile(x + i, z + j));
             }
         }

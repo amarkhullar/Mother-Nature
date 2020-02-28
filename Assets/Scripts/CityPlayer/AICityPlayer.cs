@@ -5,10 +5,12 @@ using UnityEngine;
 // Rudimentary AI, essentially just plays
 public class AICityPlayer : CityPlayer
 {
-    private List<Building> buildings = new List<Building>();
     private List<Vector2> eligibleLocations = new List<Vector2>();
     private List<Vector2> visitedLocations = new List<Vector2>();
+    private Dictionary<Vector2, Building> ownedBuildings = new Dictionary<Vector2, Building>();
+    private Vector2 startingLocation;
     private HexTileMapGenerator hexMap;
+    private float cityMaxRadius = 0;
 
     public int waitTime = 250; // FixedUpdates between actions, 50=1s by default
     private int timeWaited; // First move is a second after the start
@@ -31,6 +33,7 @@ public class AICityPlayer : CityPlayer
 
         Debug.Log(startLocation + ":" + hexMap.mapWidth + ":" + hexMap.mapHeight);
         eligibleLocations.Add(startLocation);
+        startingLocation = startLocation;
         timeWaited = waitTime - 50;
     }
 
@@ -68,6 +71,7 @@ public class AICityPlayer : CityPlayer
             }
 
             // TODO: Make this decide based on resources etc.
+            /// SELECT TILE TO BUILD ON
             if(selectedBuilding == null)
             {
                 List<GameObject> basicBuildings = new List<GameObject>();
@@ -80,19 +84,36 @@ public class AICityPlayer : CityPlayer
                 selectedBuilding = basicBuildings[(int) (Random.value * basicBuildings.Count)];
             }
 
-            bool success = placeBuilding(selectedBuilding,loc);
+            /// ATTEMPT TO PLACE A BUILDING
+            bool success = PlaceBuilding(selectedBuilding,loc);
 
+            /// IF WE SUCCEEDED
             if(success)
             {
-                for(int i = 0; i <= 1; i++)
+                /// ADD NEW TILES TO THE LIST OF ELIGIBLE
+                List<HexTile> hs = hexMap.GetNeighbours(loc);
+                foreach(HexTile h in hs)
                 {
-                    for(int j = -1; j <= 1; j++)
+                    Vector2 test = h.GetLocation();
+                    if (!eligibleLocations.Contains(test) && !visitedLocations.Contains(test))
                     {
-                        Vector2 test = new Vector2(loc.x + i + (i == 0 & j == 0 ? -1 : 0), loc.y + j);
-                        if(!eligibleLocations.Contains(test) && !visitedLocations.Contains(test))
-                            eligibleLocations.Add(test);
+                        eligibleLocations.Add(test);
+                        h.SetMaterialColor(Color.cyan); /// DEBUG
                     }
                 }
+                tile.SetMaterialColor(Color.black); /// DEBUG
+
+                /// UPDATE REST OF CITY IF NEEDED (eg: mark buildings to become skyscrapers)
+                if(Vector2.Distance(startingLocation, loc) > cityMaxRadius)
+                {
+                    cityMaxRadius = Vector2.Distance(startingLocation, loc);
+                    // Add relevant buildings to upgrade list?
+                    // Increase size of skyscrapers?
+                }
+            }
+            else
+            {
+                tile.SetMaterialColor(Color.red); /// DEBUG
             }
 
             eligibleLocations.Remove(loc);
@@ -100,7 +121,15 @@ public class AICityPlayer : CityPlayer
         }
     }
 
-    public bool placeBuilding(GameObject building, Vector2 location){
+    // Returns a pair of (location, building to put there). If upgrade is selected then atm it'll place a skyscraper
+    public (Vector2, GameObject) GetNextLocation()
+    {
+
+
+        return (new Vector2(), null);
+    }
+
+    public bool PlaceBuilding(GameObject building, Vector2 location){
         Building b = building.GetComponent<Building>();
 
         // Check that we have enough resources
