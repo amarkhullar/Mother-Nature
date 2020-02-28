@@ -7,12 +7,6 @@ public class HexTileMapGenerator : MonoBehaviour
 {
 
     // TODO: See if values need tweaking
-    //       Generate rocks/metal veins/any other
-    //       Possible ways to generate: standard uniform random above n
-    //                                  in clusters, maybe with more perlin noise?
-    //                                  do metals spawn in place of stone, or are they completely separate?
-    //       Needs to be discussed ^^^
-    //       Allow for a static seed to be used.
 
     [SerializeField]
     public TerrainData data;
@@ -60,9 +54,9 @@ public class HexTileMapGenerator : MonoBehaviour
     void CreateTiles()
     {
         tiles = new HexTile[mapHeight * mapWidth];
-        for (int z = 0, i = 0; z < mapHeight; z++)
+        for (int x = 0, i = 0; x < mapWidth; x++)
         {
-            for (int x = 0; x < mapWidth; x++)
+            for (int z = -x/2; z < mapHeight - x/2; z++)
             {
                 CreateTile(x, z, i++);
             }
@@ -72,7 +66,8 @@ public class HexTileMapGenerator : MonoBehaviour
     void CreateTile(int x, int z, int i)
     {
         Vector3 position;
-        position.x = (x + z * 0.5f - z / 2) * HexTileMetrics.distBetween; // nb: z/2 and z*0.5f are different. z/2 rounds down (because ints). z*0.5f doesn't.
+        // position.x = (x + z * 0.5f - z / 2) * HexTileMetrics.distBetween; // nb: z/2 and z*0.5f are different. z/2 rounds down (because ints). z*0.5f doesn't.
+        position.x = (x + z * 0.5f) * HexTileMetrics.distBetween;
         position.y = 0f;                                                  // ^^ this means that you end up with a slightly staggered pattern.
         position.z = z * (HexTileMetrics.distBetween - 1f);
 
@@ -83,6 +78,8 @@ public class HexTileMapGenerator : MonoBehaviour
         tile.z = z;
     }
 
+    // NB: This works no matter how the tiles are arranged, it grabs the (x,z)'s straight from the tiles themselves.
+    // (that does mean that messing with tile sizes will mess with map scale) 
     void GenerateMap()
     {
         float[] xs = new float[mapWidth * mapHeight];
@@ -194,9 +191,44 @@ public class HexTileMapGenerator : MonoBehaviour
         }
     }
 
+    public HexTile GetHexTile(Vector2 v)
+    {
+        return GetHexTile((int) v.x, (int) v.y);
+    }
+
     public HexTile GetHexTile(int x, int z)
     {
         return this.tiles[x + z * mapWidth];
+    }
+
+    public List<HexTile> GetNeighbours(int x, int z)
+    {
+        List<HexTile> ns = new List<HexTile>();
+
+        // this looks a bit odd but it's the simplest way I found to do it.
+        // Coordinates: (it loops over top to bottom)
+        //                  /^/ z
+        //      (-1,1)  (0,1)                    Start top left, loop over l->r, t->b
+        //   (-1,0) (0,0)  (1,0)   --> x         When it hits (0,0) it shifts the x starting coord over by 1
+        //      (0,-1)  (1,-1)                   You can think of it as going down a 3x2 and being shoved over a column half way through
+
+        int istart = -1;
+        for(int j = 1; j >= -1; j--)
+        {
+            for(int i = istart; i <= istart+1; i++)
+            {
+                if (i == 0 && j == 0)
+                {
+                    istart += 1;
+                    i += 1;
+                }
+
+                if(x + i >= 0 && z + j >= 0 && x < mapWidth && j < mapHeight)
+                  ns.Add(GetHexTile(x + i, z + j));
+            }
+        }
+
+        return ns;
     }
 
 }
