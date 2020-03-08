@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -234,6 +234,23 @@ public class HexTileMapGenerator : MonoBehaviour
             }
         }
 
+        return ns;
+    }
+
+    public List<HexTile> GetTilesWithinRange(int x, int z, int dist)
+    {
+        // This is a much better way than above.
+
+        List<HexTile> ns = new List<HexTile>();
+
+        for(int i = -dist; i <= dist; i++)
+        {
+            for(int j = (int) Math.Max(-dist, -i-dist); j <= (int) Math.Min(dist, -i+dist); j++)
+            {
+                if(i != 0 || j != 0)
+                   ns.Add(GetHexTile(x+i,z+j));
+            }
+        }
         return ns;
     }
 
