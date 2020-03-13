@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7806841844254911710}
   - component: {fileID: -1865914556532221985}
   m_Layer: 0
-  m_Name: TempBuilding
+  m_Name: genericBuilding
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94,8 +94,10 @@ MonoBehaviour:
   destroysResourceOnPlace: 0
   resourceConsumptionInita: 
   resourceConsumptionInitb: []
-  buildCostInita: 
-  buildCostInitb: []
+  buildCostInita: 0200000001000000
+  buildCostInitb:
+  - 2
+  - 2
   requiresResourceOnTile: 0
   location: {x: 95, y: 71}
   tile: {fileID: 0}
@@ -103,4 +105,5 @@ MonoBehaviour:
   curHealth: 0
   productivityRate: 1
   tileResourceUsage: 0
+  placedOnWater: 0
   owner: {fileID: 0}

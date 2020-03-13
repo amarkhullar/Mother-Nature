@@ -174,7 +174,7 @@ public class HexTile : MonoBehaviour
             bscript2.location = new Vector2(x,z);
             return true;
         }
-        else Debug.LogWarning("Cannot place a non building as a building.");
+        else Debug.LogWarning("Cannot place a non building as a building. (" + go.name + ")");
         return false;
     }
 

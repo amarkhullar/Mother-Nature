@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7418171254246317881}
   - component: {fileID: 7836028745756386360}
   m_Layer: 0
-  m_Name: TempForestry
+  m_Name: forestry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -95,8 +95,9 @@ MonoBehaviour:
   resourceConsumptionInita: 02000000
   resourceConsumptionInitb:
   - -1
-  buildCostInita: 
-  buildCostInitb: []
+  buildCostInita: 02000000
+  buildCostInitb:
+  - 2
   requiresResourceOnTile: 2
   location: {x: 91, y: 67}
   tile: {fileID: 0}

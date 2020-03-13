@@ -7,10 +7,10 @@ public class Building : MonoBehaviour
 
     // Some temporary attributes, TODO: check what's actually needed etc.
     [SerializeField] public bool destroysResourceOnPlace; // this can probably be replaced by a "yes, unless resource appears in consumption"
-    [SerializeField] private ResourceTypeEnum[] resourceConsumptionInita = null; // workaround bc unity hates dicts >:[
-    [SerializeField] private double[] resourceConsumptionInitb = null;
-    [SerializeField] private ResourceTypeEnum[] buildCostInita = null;
-    [SerializeField] private double[] buildCostInitb = null;
+    [SerializeField] public ResourceTypeEnum[] resourceConsumptionInita = null; // workaround bc unity hates dicts >:[
+    [SerializeField] public double[] resourceConsumptionInitb = null;
+    [SerializeField] public ResourceTypeEnum[] buildCostInita = null;
+    [SerializeField] public double[] buildCostInitb = null;
     [SerializeField] public ResourceTypeEnum requiresResourceOnTile = ResourceTypeEnum.NONE ;
     [HideInInspector] public Vector2 location;
     [HideInInspector] public HexTile tile;
@@ -31,7 +31,7 @@ public class Building : MonoBehaviour
 
     [HideInInspector] public CityPlayer owner;
 
-    public void Start(){
+    public void Awake(){
         // Transfers the init arrays to the dicts. Yuck.
         if(resourceConsumptionInitb.Length != resourceConsumptionInita.Length) Debug.LogWarning("you've done goof v1: mismatched array lengths");
         for(int i = 0; i < resourceConsumptionInita.Length; i++)

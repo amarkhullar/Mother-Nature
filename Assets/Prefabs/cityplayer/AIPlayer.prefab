@@ -48,6 +48,7 @@ MonoBehaviour:
   buildMenuObj: {fileID: 0}
   uicanvas: {fileID: 0}
   buildingList: {fileID: 3850190557329451026}
+  startingLocation: {x: -1, y: -1}
   waitTime: 100
 --- !u!114 &3850190557329451026
 MonoBehaviour:

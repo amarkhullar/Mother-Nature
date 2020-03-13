@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -55,12 +55,14 @@ public class HexTileMapGenerator : MonoBehaviour
     void CreateTiles()
     {
         tiles = new HexTile[mapHeight * mapWidth];
+        int zstart = 0;
         for (int x = 0, i = 0; x < mapWidth; x++)
         {
-            for (int z = 0; z < mapHeight; z++)
+            for (int z = zstart; z < mapHeight - zstart; z++)
             {
                 CreateTile(x, z, i++);
             }
+            //zstart -= 1;
         }
     }
 
@@ -79,8 +81,7 @@ public class HexTileMapGenerator : MonoBehaviour
         tile.z = z;
     }
 
-    // NB: This works no matter how the tiles are arranged, it grabs the (x,z)'s straight from the tiles themselves.
-    // (that does mean that messing with tile sizes will mess with map scale) 
+    // NB: If how the tiles are ordered changes, the map will change to follow that
     void GenerateMap()
     {
         float[] xs = new float[mapWidth * mapHeight];
@@ -199,7 +200,10 @@ public class HexTileMapGenerator : MonoBehaviour
 
     public HexTile GetHexTile(int x, int z)
     {
-        return this.tiles[z + x * mapWidth];
+        int i = z + x * mapWidth;
+        if (i < tiles.Length && i > 0)
+            return this.tiles[z + x * mapWidth];
+        return null;
     }
 
     public List<HexTile> GetNeighbours(Vector2 v)
@@ -242,13 +246,17 @@ public class HexTileMapGenerator : MonoBehaviour
         // This is a much better way than above.
 
         List<HexTile> ns = new List<HexTile>();
-
+        HexTile tmp;
         for(int i = -dist; i <= dist; i++)
         {
             for(int j = (int) Math.Max(-dist, -i-dist); j <= (int) Math.Min(dist, -i+dist); j++)
             {
                 if(i != 0 || j != 0)
-                   ns.Add(GetHexTile(x+i,z+j));
+                {
+                    tmp = GetHexTile(x + i, z + j);
+                    if(tmp != null)
+                       ns.Add(tmp);
+                }
             }
         }
         return ns;
