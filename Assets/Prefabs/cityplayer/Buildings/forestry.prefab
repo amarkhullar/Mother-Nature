@@ -99,11 +99,12 @@ MonoBehaviour:
   buildCostInitb:
   - 2
   requiresResourceOnTile: 2
+  pollutionPerSecond: 0.8
   location: {x: 91, y: 67}
   tile: {fileID: 0}
   maxHealth: 100
   curHealth: 0
   productivityRate: 1
-  tileResourceUsage: 0
+  tileResourceUsage: 0.2
   placedOnWater: 0
   owner: {fileID: 0}

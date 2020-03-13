@@ -162,7 +162,7 @@ public class HexTile : MonoBehaviour
 
     //////// END TILE GENERATION ////////
 
-    public bool PlaceBuilding(GameObject go, CityPlayer owner)
+    public GameObject PlaceBuilding(GameObject go, CityPlayer owner)
     {
         Building bscript = go.GetComponent<Building>();
         if(bscript != null && ((bscript.placedOnWater && this.terrain.name.Equals("Water")) || (!this.terrain.name.Equals("Water"))))
@@ -172,10 +172,10 @@ public class HexTile : MonoBehaviour
             bscript2.owner = owner;
             bscript2.tile = this;
             bscript2.location = new Vector2(x,z);
-            return true;
+            return g2;
         }
-        else Debug.LogWarning("Cannot place a non building as a building. (" + go.name + ")");
-        return false;
+        else Debug.LogWarning("Cannot place a non building as a building. (" + go.name + ", " + GetLocation() + ")");
+        return null;
     }
 
     // Tile Highlighting:

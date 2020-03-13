@@ -5,16 +5,21 @@ using UnityEngine;
 using System.Linq;
 
 // TODO: If this becomes complex enough create a class/enum Action that says whether to build/destroy/upgrade etc
+// TODO: More optimal pathing to resources, build over roads, build over buildings close to centre, increase height of centre buildings, willingness for pollution
+// TODO: Start with some houses maybe?
+// TODO: Give them a flat +0.1 for food/wood at all times maybe? To stop bad spawns rendering it incapable of doing anything.
 public class AICityPlayer : CityPlayer
 {
     private List<Vector2> eligibleLocations = new List<Vector2>();
     private List<Vector2> visitedLocations = new List<Vector2>();
     private Dictionary<Vector2, Building> ownedBuildings = new Dictionary<Vector2, Building>();
-    public Vector2 startingLocation;
-    public float cityViewMultiplier = 6f;
     private HexTileMapGenerator hexMap;
     private float cityMaxRadius = 0;
     private float maxViewDistance = 10;
+
+    public float pollutionRating = 1f;
+    public float cityViewMultiplier = 6f;
+    public Vector2 startingLocation;
 
     // TODO: Change wait time to be a function of city size.
     public int waitTime = 250; // FixedUpdates between actions, 50=1s by default
@@ -45,7 +50,7 @@ public class AICityPlayer : CityPlayer
         timeWaited = waitTime - 50;
 
         //         none food wood stone coal metal electricity water
-        int[] start = { 0, -3, -5,   0,   1,   1,    2,     0 };
+        int[] start = { 0, 50, 50,  10,  0,   0,   0,     0 };
         int starti = 0;
         foreach (ResourceTypeEnum rte in Enum.GetValues(typeof(ResourceTypeEnum))){
             resources[rte] = start[starti++];
@@ -67,6 +72,7 @@ public class AICityPlayer : CityPlayer
             if(tile == null || selectedBuilding == null)
             {
                 Debug.Log("no tile/building pair found");
+                return;
             }
             Vector2 loc = tile.GetLocation();
 
@@ -76,6 +82,12 @@ public class AICityPlayer : CityPlayer
             /// IF WE SUCCEEDED
             if(success)
             {
+                Building bld = selectedBuilding.GetComponent<Building>();
+                foreach(ResourceTypeEnum rte in bld.buildCostInita)
+                {
+                    resources[rte] -= bld.buildCostInitb[Array.IndexOf(bld.buildCostInita, rte)];
+                }
+
                 /// ADD NEW TILES TO THE LIST OF ELIGIBLE
                 List<HexTile> hs = hexMap.GetNeighbours(loc);
                 foreach(HexTile h in hs)
@@ -93,14 +105,20 @@ public class AICityPlayer : CityPlayer
                 if(Vector2.Distance(startingLocation, loc) > cityMaxRadius)
                 {
                     cityMaxRadius = Vector2.Distance(startingLocation, loc);
-                    maxViewDistance = 10;//cityMaxRadius * cityViewMultiplier;
+                    maxViewDistance = 10;//cityMaxRadius * cityViewMultiplier; * desperation?
                     // Add relevant buildings to upgrade list?
                     // Increase size of skyscrapers?
                 }
-            }
 
-            eligibleLocations.Remove(loc);
-            visitedLocations.Add(loc);
+                if(bld != buildingList.buildings[0]) // If it's not a road.
+                {
+                    eligibleLocations.Remove(loc);
+                    visitedLocations.Add(loc);
+                }
+            }
+            else{
+                visitedLocations.Add(loc); // Probably done something stupid like trying to place a building on water. This invalidates the tile in the future.
+            }
         }
     }
 
@@ -111,34 +129,40 @@ public class AICityPlayer : CityPlayer
         Dictionary<ResourceTypeEnum, double> priorities = new Dictionary<ResourceTypeEnum, double>();
         Dictionary<ResourceTypeEnum, double> generating = new Dictionary<ResourceTypeEnum, double>();
         //             none food wood stone coal metal electricity water
-        double[] bias = {0, -3, -3, 0, 1, 1, 2, 0};
+        double[] bias = {100, -2, -3, 0, 1, 1, 1.5, 100};
 
+        // Initialising
+        foreach (ResourceTypeEnum rte in Enum.GetValues(typeof(ResourceTypeEnum)))
+            generating[rte] = 0;
 
         foreach(Building b in ownedBuildings.Values)
         {
-            foreach(ResourceTypeEnum rte in b.resourceConsumption.Keys){
-                generating[rte] += b.productivityRate * b.resourceConsumption[rte];
+            foreach(ResourceTypeEnum rte in b.resourceConsumption.Keys)
+            {
+                generating[rte] += b.productivityRate * -b.resourceConsumption[rte];
             }
         }
 
         int biasindex = 0;
         ResourceTypeEnum prioResourceType = ResourceTypeEnum.NONE;
         foreach (ResourceTypeEnum rte in Enum.GetValues(typeof(ResourceTypeEnum)))
-        { // Lower = higher priority. Mix of how fast we're losing vs how much we have vs how important it is
-            priorities[rte] = (generating.ContainsKey(rte) ? generating[rte] : 0) + resources[rte]/10 + bias[biasindex++];
+        { // Lower = higher priority. Mix of how fast we're generating/losing vs how much we have vs how important it is
+            priorities[rte] = (generating.ContainsKey(rte) ? generating[rte] : 0)*0.7f + (resources[rte] - 20)/30 + bias[biasindex++];
         }
 
         var orderedpriors = priorities.OrderBy(i => i.Value);
         prioResourceType = orderedpriors.ElementAtOrDefault(0).Key;
 
-        String s = "Resource Prios: ";
+        String d = "Resource Prios: ", p = "", r = "";
         foreach(ResourceTypeEnum rte in priorities.Keys)
         {
-            s += rte.ToString() + ": " + priorities[rte] + ";  ";
+            p = priorities[rte] + "";
+            r = resources[rte] + "";
+            d += rte.ToString() + ": " + p.Substring(0,4 > p.Length ? p.Length : 4) + ", " + r.Substring(0,4 > r.Length ? r.Length : 4) + ";  ";
         }
 
-        Debug.Log(s);
-        s = "";
+        //Debug.Log(s);
+        String s = "";
 
         float dist = 1000;
         Vector2 vStart = new Vector2(), vToFind; // Technically I shouldn't need to set vStart as it's set in the if's, but programming sucks.
@@ -160,17 +184,32 @@ public class AICityPlayer : CityPlayer
         if(prioResourceType != ResourceTypeEnum.NONE && priorities[prioResourceType] < 0) {
             s += "1:";
             // 1:
-            List<HexTile> inrange = hexMap.GetTilesWithinRange((int)startingLocation.x, (int)startingLocation.y, (int)maxViewDistance);
-            inrange.RemoveAll(item => visitedLocations.Contains(item.GetLocation()));
             HexTile closestRT = null;
-            foreach (HexTile ht in inrange)
+            foreach(Vector2 elv in eligibleLocations)
             {
-                if (ht.resourceType == prioResourceType)
+                if(hexMap.GetHexTile(elv).resourceType == prioResourceType)
                 {
-                    if ((ht.GetLocation() - startingLocation).magnitude < dist)
+                    if((elv - startingLocation).magnitude < dist)
                     {
-                        closestRT = ht;
-                        dist = (ht.GetLocation() - startingLocation).magnitude;
+                        dist = (elv - startingLocation).magnitude;
+                        closestRT = hexMap.GetHexTile(elv);
+                    }
+                }
+            }
+
+            if(closestRT == null)
+            {
+                List<HexTile> inrange = hexMap.GetTilesWithinRange((int)startingLocation.x, (int)startingLocation.y, (int)maxViewDistance);
+                inrange.RemoveAll(item => visitedLocations.Contains(item.GetLocation()));
+                foreach (HexTile ht in inrange)
+                {
+                    if (ht.resourceType == prioResourceType)
+                    {
+                        if ((ht.GetLocation() - startingLocation).magnitude < dist)
+                        {
+                            closestRT = ht;
+                            dist = (ht.GetLocation() - startingLocation).magnitude;
+                        }
                     }
                 }
             }
@@ -218,9 +257,14 @@ public class AICityPlayer : CityPlayer
                 }
             }
 
-            if (selectedBuilding == null)
+            bool panic = false;
+            if (selectedBuilding == null || (selectedBuilding.GetComponent<Building>().requiresResourceOnTile != ResourceTypeEnum.NONE && closestRT == null))
+                panic = true;
+
+            if(panic)
             {
                 ohno++;
+                Debug.Log("ohno");
                 if (ohno < 3)
                 {
                     prioResourceType = orderedpriors.ElementAtOrDefault(ohno).Key;
@@ -247,26 +291,31 @@ public class AICityPlayer : CityPlayer
 
 
         ///// NO PRIORITY ///// (or if the above failed)
-        if (prioResourceType == ResourceTypeEnum.NONE || priorities[prioResourceType] > 0 || ohno == 3)
+        if (prioResourceType == ResourceTypeEnum.NONE || priorities[prioResourceType] > 0)
         {
             s += "2:";
+            //Debug.Log("going for random.");
             // Select random building
             // TODO: Make it less random, maybe have upgrade buildings here?
             List<GameObject> eligibleBuildings = new List<GameObject>();
             foreach (GameObject go in buildingList.buildings)
             {
                 Building b = go.GetComponent<Building>();
-                if (b.requiresResourceOnTile == ResourceTypeEnum.NONE && affordable(b))
+                if (b.requiresResourceOnTile == ResourceTypeEnum.NONE && affordable(b) && !b.name.Equals("road"))
                 {
                     eligibleBuildings.Add(go);
                 }
             }
-            selectedBuilding = eligibleBuildings[(int) (UnityEngine.Random.value * eligibleBuildings.Count-1)+1];// -1)+1 to stop it being a Road
+            if(eligibleBuildings.Count != 0) selectedBuilding = eligibleBuildings[(int) (UnityEngine.Random.value * eligibleBuildings.Count-1)];// -1)+1 to stop it being a Road
+            else{
+                Debug.Log("No eligable buildings?");
+            }
 
             vStart = startingLocation;
         }
         //// \NO PRIORITY\ /////
 
+        if(selectedBuilding == null) return (null, null);
 
         ///// SELECT WHERE TO BUILD /////
         HexTile selectedTile = null;
@@ -285,38 +334,35 @@ public class AICityPlayer : CityPlayer
 
         selectedTile = hexMap.GetHexTile(vToFind);
         ///// \SELECT WHERE TO BUILD\ /////
-        Debug.Log(s);
+        //Debug.Log(s);
+        Debug.Log(d + ":: " + selectedBuilding.name);
 
         return (selectedTile, selectedBuilding);
     }
 
     public bool PlaceBuilding(GameObject building, Vector2 location){
-        Building b = building.GetComponent<Building>();
 
-        // Check that we have enough resources
-        foreach(ResourceTypeEnum rte in b.buildCost.Keys)
-        {
-            if(b.buildCost[rte] > resources[rte]) return false;
-        }
-
-        bool success = hexMap.GetHexTile((int) location.x, (int) location.y).PlaceBuilding(building, this);
+        GameObject success = hexMap.GetHexTile((int) location.x, (int) location.y).PlaceBuilding(building, this);
 
         // Remove resources
-        if(success)
+        if(success != null)
         {
+            Building b = success.GetComponent<Building>();
             foreach(ResourceTypeEnum rte in b.buildCost.Keys)
             {
                 resources[rte] -= b.buildCost[rte];
             }
+
+            ownedBuildings.Add(location, b);
         }
 
-        return success;
+        return success != null;
     }
 
     private bool affordable(Building building)
     {
-        foreach(ResourceTypeEnum rt in building.buildCost.Keys)
-            if (resources[rt] < building.buildCost[rt])
+        foreach(ResourceTypeEnum rt in building.buildCostInita)
+            if (resources[rt] < building.buildCostInitb[Array.IndexOf(building.buildCostInita, rt)])
                 return false;
 
         return true;

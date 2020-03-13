@@ -2260,15 +2260,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3a0b07d10e7b588a909540044d2bbec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroysResourceOnPlace: 0
+  destroysResourceOnPlace: 1
   resourceConsumptionInita: 0100000002000000
   resourceConsumptionInitb:
   - 0.2
-  - 0.05
+  - 0.1
   buildCostInita: 02000000
   buildCostInitb:
-  - 4
+  - 5
   requiresResourceOnTile: 0
+  pollutionPerSecond: 2
   location: {x: 0, y: 0}
   tile: {fileID: 0}
   maxHealth: 100

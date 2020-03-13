@@ -160,19 +160,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroysResourceOnPlace: 0
-  resourceConsumptionInita: 01000000
+  resourceConsumptionInita: 0100000002000000
   resourceConsumptionInitb:
-  - -1
+  - -1.5
+  - 0.1
   buildCostInita: 02000000
   buildCostInitb:
-  - 10
+  - 5
   requiresResourceOnTile: 1
+  pollutionPerSecond: 0.3
   location: {x: 95, y: 76}
   tile: {fileID: 0}
   maxHealth: 100
   curHealth: 0
   productivityRate: 1
-  tileResourceUsage: 1
+  tileResourceUsage: 0.5
   placedOnWater: 0
   owner: {fileID: 0}
 --- !u!1001 &3839397540845426864
@@ -182,11 +184,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1122054231489971002}
     m_Modifications:
-    - target: {fileID: 8942828283795533351, guid: 152c63d5c8bbb342899b176cb310bdd5,
-        type: 3}
-      propertyPath: m_Name
-      value: WoodenCabinObj
-      objectReference: {fileID: 0}
     - target: {fileID: 5350301824482286644, guid: 152c63d5c8bbb342899b176cb310bdd5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -241,6 +238,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8942828283795533351, guid: 152c63d5c8bbb342899b176cb310bdd5,
+        type: 3}
+      propertyPath: m_Name
+      value: WoodenCabinObj
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 152c63d5c8bbb342899b176cb310bdd5, type: 3}

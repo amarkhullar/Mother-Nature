@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 4324988475894028990}
   - component: {fileID: 4418999028299311817}
   - component: {fileID: 5015174707552832996}
-  - component: {fileID: 5752489807513614053}
+  - component: {fileID: -664754005441038378}
   m_Layer: 0
-  m_Name: TempFarm
+  m_Name: farm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,9 +26,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5162109091622958649}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 55.48343, y: 292.41, z: 24.8}
-  m_LocalScale: {x: 4, y: 20, z: 6}
+  m_LocalRotation: {x: -0.5, y: 0.5, z: -0.5, w: 0.49999997}
+  m_LocalPosition: {x: -1.8393246, y: -0.15300596, z: -0.37596947}
+  m_LocalScale: {x: 82.806526, y: 6.991009, z: 14.696053}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -40,7 +40,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5162109091622958649}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 2500197153405438907, guid: d21a9e4a284d7fc5bb2f20b8d67bb91f, type: 3}
 --- !u!23 &5015174707552832996
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -58,7 +58,16 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 421f456c66f5fc74eb2510dd269b0f09, type: 2}
+  - {fileID: -1850376585262274577, guid: d21a9e4a284d7fc5bb2f20b8d67bb91f, type: 3}
+  - {fileID: -3749812289646507152, guid: d21a9e4a284d7fc5bb2f20b8d67bb91f, type: 3}
+  - {fileID: 5773629165686839088, guid: d21a9e4a284d7fc5bb2f20b8d67bb91f, type: 3}
+  - {fileID: 243576806471510326, guid: d21a9e4a284d7fc5bb2f20b8d67bb91f, type: 3}
+  - {fileID: -4635968873744894863, guid: d21a9e4a284d7fc5bb2f20b8d67bb91f, type: 3}
+  - {fileID: -3843797311139509956, guid: d21a9e4a284d7fc5bb2f20b8d67bb91f, type: 3}
+  - {fileID: -8813157238246803406, guid: d21a9e4a284d7fc5bb2f20b8d67bb91f, type: 3}
+  - {fileID: 3931585545257225806, guid: d21a9e4a284d7fc5bb2f20b8d67bb91f, type: 3}
+  - {fileID: -8981728460217981659, guid: d21a9e4a284d7fc5bb2f20b8d67bb91f, type: 3}
+  - {fileID: -1784248150052995556, guid: d21a9e4a284d7fc5bb2f20b8d67bb91f, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -79,7 +88,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &5752489807513614053
+--- !u!114 &-664754005441038378
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,16 +101,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroysResourceOnPlace: 0
-  resourceConsumptionInita: 01000000
+  resourceConsumptionInita: 0100000002000000
   resourceConsumptionInitb:
-  - 0.2
-  buildCostInita: 
-  buildCostInitb: []
+  - -0.6
+  - 0.1
+  buildCostInita: 02000000
+  buildCostInitb:
+  - 8
   requiresResourceOnTile: 0
-  location: {x: 95, y: 70}
+  pollutionPerSecond: 0.5
+  location: {x: 0, y: 0}
   tile: {fileID: 0}
   maxHealth: 100
   curHealth: 0
   productivityRate: 1
   tileResourceUsage: 0
+  placedOnWater: 0
   owner: {fileID: 0}

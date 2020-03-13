@@ -48,6 +48,8 @@ MonoBehaviour:
   buildMenuObj: {fileID: 0}
   uicanvas: {fileID: 0}
   buildingList: {fileID: 3850190557329451026}
+  pollutionRating: 1
+  cityViewMultiplier: 6
   startingLocation: {x: -1, y: -1}
   waitTime: 100
 --- !u!114 &3850190557329451026
@@ -69,3 +71,12 @@ MonoBehaviour:
   - {fileID: 7782256585884089165, guid: 256d6ef89db65c1559fd650f0bbe1704, type: 3}
   - {fileID: 5162109091622958649, guid: 376598a5456efe8c7a2efe9b4fe05b68, type: 3}
   - {fileID: 7957153859863697155, guid: 9644738d359dfd488826bfdc2e5f5b81, type: 3}
+  - {fileID: 3279162077921744432, guid: 5c3a0dcc196bf43818bac6100c7d7dde, type: 3}
+  - {fileID: 7258407497311086520, guid: a91e40df7cade3b48b564faff4035008, type: 3}
+  - {fileID: 8131065779566078524, guid: e7f87b37e4a239a28ad171080714b7ad, type: 3}
+  - {fileID: 8605340551195552255, guid: 8b0a88f07ae585ff4b52085cc1381db4, type: 3}
+  - {fileID: 8201948423752882527, guid: 1a3d29d0e68be58b586c156419ac26b7, type: 3}
+  - {fileID: 8692797081943518695, guid: 1954c0e7e086328b487e033ce91bf205, type: 3}
+  - {fileID: 543851972845254899, guid: 72720cfd687f3909ca89c310e33bfe44, type: 3}
+  - {fileID: 8048009354631353863, guid: 32c98fc598aec0a78911abd270265cde, type: 3}
+  - {fileID: 3200384063069789656, guid: cf2f65c234d2561a19875f8684420d82, type: 3}

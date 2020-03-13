@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7957153859863697155
+--- !u!1 &6412917483587671503
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,46 +8,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1570473698515729284}
-  - component: {fileID: 1485470637406178291}
-  - component: {fileID: 7806841844254911710}
-  - component: {fileID: -1865914556532221985}
+  - component: {fileID: 6579090771787033870}
+  - component: {fileID: 3433091262458867334}
+  - component: {fileID: 7683652265973584769}
+  - component: {fileID: 4252728200593547196}
   m_Layer: 0
-  m_Name: genericBuilding
+  m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1570473698515729284
+--- !u!4 &6579090771787033870
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7957153859863697155}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 945.58563, y: 128.633, z: 237.715}
-  m_LocalScale: {x: 6, y: 25, z: 6}
+  m_GameObject: {fileID: 6412917483587671503}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 2235046497920778163}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &1485470637406178291
+--- !u!33 &3433091262458867334
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7957153859863697155}
+  m_GameObject: {fileID: 6412917483587671503}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &7806841844254911710
+--- !u!23 &7683652265973584769
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7957153859863697155}
+  m_GameObject: {fileID: 6412917483587671503}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -79,30 +79,74 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &-1865914556532221985
+--- !u!65 &4252728200593547196
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6412917483587671503}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &8048009354631353863
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2235046497920778163}
+  - component: {fileID: -733956343257463667}
+  m_Layer: 0
+  m_Name: solarPanels
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2235046497920778163
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8048009354631353863}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 18.814167, y: -229.75513, z: 302.8056}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 6579090771787033870}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-733956343257463667
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7957153859863697155}
+  m_GameObject: {fileID: 8048009354631353863}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3a0b07d10e7b588a909540044d2bbec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   destroysResourceOnPlace: 1
-  resourceConsumptionInita: 
-  resourceConsumptionInitb: []
-  buildCostInita: 02000000010000000300000006000000
+  resourceConsumptionInita: 06000000
+  resourceConsumptionInitb:
+  - -4
+  buildCostInita: 0300000005000000
   buildCostInitb:
-  - 2
-  - 2
-  - 2
-  - 2
+  - 40
+  - 30
   requiresResourceOnTile: 0
-  pollutionPerSecond: 1
-  location: {x: 95, y: 71}
+  pollutionPerSecond: 0
+  location: {x: 0, y: 0}
   tile: {fileID: 0}
   maxHealth: 100
   curHealth: 0

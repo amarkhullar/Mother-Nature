@@ -11,7 +11,8 @@ public class Building : MonoBehaviour
     [SerializeField] public double[] resourceConsumptionInitb = null;
     [SerializeField] public ResourceTypeEnum[] buildCostInita = null;
     [SerializeField] public double[] buildCostInitb = null;
-    [SerializeField] public ResourceTypeEnum requiresResourceOnTile = ResourceTypeEnum.NONE ;
+    [SerializeField] public ResourceTypeEnum requiresResourceOnTile = ResourceTypeEnum.NONE;
+    [SerializeField] public double pollutionPerSecond = 0;
     [HideInInspector] public Vector2 location;
     [HideInInspector] public HexTile tile;
     // pollution/sec? resource usage/sec? (ie on the tile, so like basic logger may use 1wood/sec and produce 1/sec, but super eco logger xtreme might be 0.5/sec for 5/sec)
