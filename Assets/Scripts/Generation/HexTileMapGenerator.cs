@@ -55,14 +55,14 @@ public class HexTileMapGenerator : MonoBehaviour
     void CreateTiles()
     {
         tiles = new HexTile[mapHeight * mapWidth];
-        int zstart = 0;
-        for (int x = 0, i = 0; x < mapWidth; x++)
+        int z2 = 0;
+        for (int z = 0, i = 0; z < mapHeight; z++)
         {
-            for (int z = zstart; z < mapHeight - zstart; z++)
-            {
-                CreateTile(x, z, i++);
+            z2 = z / 2;
+            for (int x = 0; x < mapWidth; x++)
+            {                               //     (x,z) -> i = x + z * mapHeight
+                CreateTile(x - z2, z, i++); // (x-z/2,z) -> i = (x + z/2) + z * mapHeight       this is way simpler than I thought it'd be
             }
-            //zstart -= 1;
         }
     }
 
@@ -200,9 +200,9 @@ public class HexTileMapGenerator : MonoBehaviour
 
     public HexTile GetHexTile(int x, int z)
     {
-        int i = z + x * mapWidth;
+        int i = x + z/2 + z * mapWidth;
         if (i < tiles.Length && i > 0)
-            return this.tiles[z + x * mapWidth];
+            return this.tiles[i];
         return null;
     }
 
