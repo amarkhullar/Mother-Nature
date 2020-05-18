@@ -124,7 +124,7 @@ MonoBehaviour:
     heightDropoff: 0
     heatDropoff: 0
     noiseScale: 0.8
-    spawnableObject: {fileID: 738679000441756874, guid: 2b8f23d009573e88abaf7195ece1efa6,
+    spawnableObject: {fileID: 7387245151382261771, guid: c178730641eee81ccbe31fbd683e9e35,
       type: 3}
   - resourceType: 4
     chanceAtPreferred: 0.15

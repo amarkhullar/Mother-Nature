@@ -5,9 +5,10 @@ using UnityEngine;
 using System.Linq;
 
 // TODO: If this becomes complex enough create a class/enum Action that says whether to build/destroy/upgrade etc
-// TODO: More optimal pathing to resources, build over roads, build over buildings close to centre, increase height of centre buildings, willingness for pollution
+// TODO: build over roads (should work?), build over buildings close to centre, increase height of centre buildings
 // TODO: Start with some houses maybe?
-// TODO: Give them a flat +0.1 for food/wood at all times maybe? To stop bad spawns rendering it incapable of doing anything.
+// TODO: Give them a flat +0.1 for food/wood at all times maybe? To stop bad spawns rendering it incapable of doing anything. (done)
+// TODO: Selective deliberate production decreases for buildings which use high priority resources?
 public class AICityPlayer : CityPlayer
 {
     private List<Vector2> eligibleLocations = new List<Vector2>();
@@ -17,7 +18,7 @@ public class AICityPlayer : CityPlayer
     private float cityMaxRadius = 0;
     private float maxViewDistance = 10;
 
-    public float pollutionRating = 1f;
+    public float pollutionAversion = 1f; // 0 = doesn't give af, -ve = actively wants to pollute, +ve = tries not to
     public float cityViewMultiplier = 6f;
     public Vector2 startingLocation;
 
@@ -46,9 +47,19 @@ public class AICityPlayer : CityPlayer
             Debug.Log(startLocation + ":" + hexMap.mapWidth + ":" + hexMap.mapHeight);
             startingLocation = startLocation;
         }
-        eligibleLocations.Add(startingLocation);
+        visitedLocations.Add(startingLocation);
         timeWaited = waitTime - 50;
 
+        // Place city center, which should always be buildinglist.buildings[1]
+        Debug.Log(PlaceBuilding(buildingList.buildings[1], startingLocation));
+        foreach (HexTile h in hexMap.GetNeighbours(startingLocation))
+        {
+            if (visitedLocations.Contains(h.GetLocation())) continue;
+            eligibleLocations.Add(h.GetLocation());
+            h.SetMaterialColor(Color.cyan); /// DEBUG
+        }
+
+        // Setup starting resources
         //         none food wood stone coal metal electricity water
         int[] start = { 0, 50, 50,  10,  0,   0,   0,     0 };
         int starti = 0;
@@ -117,6 +128,9 @@ public class AICityPlayer : CityPlayer
                 }
             }
             else{
+                Debug.Log("Placing a building failed. Removing tile future considerations.");
+                tile.SetMaterialColor(Color.red); /// DEBUG
+
                 visitedLocations.Add(loc); // Probably done something stupid like trying to place a building on water. This invalidates the tile in the future.
             }
         }
@@ -124,35 +138,17 @@ public class AICityPlayer : CityPlayer
 
     // Returns a pair of (location, building to put there). If upgrade is selected then atm it'll place a skyscraper
     public (HexTile, GameObject) GetNextAction()
-    { // TODO: find a way to clean this up or separate it into different functions.
-        // Check resources
-        Dictionary<ResourceTypeEnum, double> priorities = new Dictionary<ResourceTypeEnum, double>();
-        Dictionary<ResourceTypeEnum, double> generating = new Dictionary<ResourceTypeEnum, double>();
-        //             none food wood stone coal metal electricity water
-        double[] bias = {100, -2, -3, 0, 1, 1, 1.5, 100};
-
-        // Initialising
-        foreach (ResourceTypeEnum rte in Enum.GetValues(typeof(ResourceTypeEnum)))
-            generating[rte] = 0;
-
-        foreach(Building b in ownedBuildings.Values)
-        {
-            foreach(ResourceTypeEnum rte in b.resourceConsumption.Keys)
-            {
-                generating[rte] += b.productivityRate * -b.resourceConsumption[rte];
-            }
-        }
-
-        int biasindex = 0;
+    {
+        // Check resources and see which we need to prioritise.
+        Dictionary<ResourceTypeEnum, double> generating = GetResourceGeneration();
+        Dictionary<ResourceTypeEnum, double> priorities = GetResourcePriorities(generating);
         ResourceTypeEnum prioResourceType = ResourceTypeEnum.NONE;
-        foreach (ResourceTypeEnum rte in Enum.GetValues(typeof(ResourceTypeEnum)))
-        { // Lower = higher priority. Mix of how fast we're generating/losing vs how much we have vs how important it is
-            priorities[rte] = (generating.ContainsKey(rte) ? generating[rte] : 0)*0.7f + (resources[rte] - 20)/30 + bias[biasindex++];
-        }
+        double prioCutoffPoint = 2; // What does the lowest priority have to be before we focus on it?
 
         var orderedpriors = priorities.OrderBy(i => i.Value);
         prioResourceType = orderedpriors.ElementAtOrDefault(0).Key;
 
+        //// DEBUG:
         String d = "Resource Prios: ", p = "", r = "";
         foreach(ResourceTypeEnum rte in priorities.Keys)
         {
@@ -160,141 +156,47 @@ public class AICityPlayer : CityPlayer
             r = resources[rte] + "";
             d += rte.ToString() + ": " + p.Substring(0,4 > p.Length ? p.Length : 4) + ", " + r.Substring(0,4 > r.Length ? r.Length : 4) + ";  ";
         }
-
-        //Debug.Log(s);
-        String s = "";
-
-        float dist = 1000;
-        Vector2 vStart = new Vector2(), vToFind; // Technically I shouldn't need to set vStart as it's set in the if's, but programming sucks.
+        
+        Vector2 vStart = new Vector2(); // Technically I shouldn't need to set vStart as it's set in the if's, but programming sucks.
         GameObject selectedBuilding = null;
 
         // Now we've got the priorities, decide how to fix anything that's running low.
         // Two paths:
         //  A priority:
-        //      Firstly, find the nearest resource node
-        //      Secondly, find best building depending on that
-        //      Thirdly, update variables to reflect whether we're pathing to resource or not.
+        //      1, find the nearest resource node
+        //      2, find best building depending on that
+        //      3, update variables to reflect whether we're pathing to resource or not.
         //  No real priority: Make a random Building
 
 
         ///// IF WE HAVE A PRIORITY /////
-        int ohno = 0;
-        temp_label_just_so_I_dont_have_to_refactor_any_code_just_yet:
-
-        if(prioResourceType != ResourceTypeEnum.NONE && priorities[prioResourceType] < 0) {
-            s += "1:";
+        if(prioResourceType != ResourceTypeEnum.NONE && priorities[prioResourceType] < prioCutoffPoint) {
             // 1:
-            HexTile closestRT = null;
-            foreach(Vector2 elv in eligibleLocations)
-            {
-                if(hexMap.GetHexTile(elv).resourceType == prioResourceType)
-                {
-                    if((elv - startingLocation).magnitude < dist)
-                    {
-                        dist = (elv - startingLocation).magnitude;
-                        closestRT = hexMap.GetHexTile(elv);
-                    }
-                }
-            }
-
-            if(closestRT == null)
-            {
-                List<HexTile> inrange = hexMap.GetTilesWithinRange((int)startingLocation.x, (int)startingLocation.y, (int)maxViewDistance);
-                inrange.RemoveAll(item => visitedLocations.Contains(item.GetLocation()));
-                foreach (HexTile ht in inrange)
-                {
-                    if (ht.resourceType == prioResourceType)
-                    {
-                        if ((ht.GetLocation() - startingLocation).magnitude < dist)
-                        {
-                            closestRT = ht;
-                            dist = (ht.GetLocation() - startingLocation).magnitude;
-                        }
-                    }
-                }
-            }
-            //Debug.Log((closestRT == null) + "::" + inrange.Count() + "::" + ((int) maxViewDistance));
-            //Debug.Log(closestRT.GetLocation());
+            (HexTile closestRT, double closestDist) = FindNearestResourceNode(prioResourceType);
 
             // 2:
-            //Dictionary<GameObject, double> buildingRating = new Dictionary<GameObject, double>();
-            double rating, highest = -10000;
-            Building bld;
-            foreach (GameObject go in buildingList.buildings)
+            selectedBuilding = GetHighestRatedBuilding(prioResourceType, priorities, closestDist); // shouldn't need a check on closestDist, if closestRT is null, closestDist should still be ridiculously large
+
+            // Sanity Check
+            if(selectedBuilding == null || (selectedBuilding.GetComponent<Building>().requiresResourceOnTile != ResourceTypeEnum.NONE && closestRT == null))
             {
-                rating = 0;
-                bld = go.GetComponent<Building>();
-                if ((!bld.resourceConsumptionInita.Contains(prioResourceType)) || bld.resourceConsumptionInitb[Array.IndexOf(bld.resourceConsumptionInita, prioResourceType)] > 0 || !affordable(bld)) continue;
-
-                // NB: Having to use the inits as the Dicts aren't yet initialised. >:c
-                foreach (ResourceTypeEnum rte in bld.resourceConsumptionInita)
-                {
-                    if (priorities[rte] < 0)
-                    {
-                        rating += priorities[rte] * bld.resourceConsumptionInitb[Array.IndexOf(bld.resourceConsumptionInita, rte)]; // Both -ve so it's +ve
-                    }
-                }
-
-                foreach (ResourceTypeEnum rte in bld.buildCost.Keys)
-                {
-                    if (priorities[rte] < 0)
-                    {
-                        rating += priorities[rte] * bld.buildCost[rte];
-                    }
-                }
-
-                //buildingRating[go] = rating;
-
-                if (bld.requiresResourceOnTile != ResourceTypeEnum.NONE) // If we have to go 20 tiles to place down this building, is it really better than the alternative(s)?
-                {
-                    rating -= (dist + (closestRT == null ? 10000 : 0)) * 0.3; // TODO: Test with different constants. As this is only run if requiresResourceonTile it doubles as a null check.
-                }
-
-                if (highest < rating)
-                {
-                    highest = rating;
-                    selectedBuilding = go;
-                }
+                Debug.Log("WARNING: No best rated building?! Aborting. ::" + prioResourceType + ":" + priorities[prioResourceType]);
+                return (null, null);
             }
 
-            bool panic = false;
-            if (selectedBuilding == null || (selectedBuilding.GetComponent<Building>().requiresResourceOnTile != ResourceTypeEnum.NONE && closestRT == null))
-                panic = true;
-
-            if(panic)
-            {
-                ohno++;
-                Debug.Log("ohno");
-                if (ohno < 3)
-                {
-                    prioResourceType = orderedpriors.ElementAtOrDefault(ohno).Key;
-                    goto temp_label_just_so_I_dont_have_to_refactor_any_code_just_yet;
-                }
-            }
-            else
-            {
-                s += "b" + selectedBuilding.name + ":";
-                bool ontile = selectedBuilding.GetComponent<Building>().requiresResourceOnTile != ResourceTypeEnum.NONE;
-                vStart = ontile ? closestRT.GetLocation() : startingLocation;
-                if(closestRT != null) s += "ct" + closestRT.GetLocation() + ":";
-
-                if(ontile && !this.eligibleLocations.Contains(closestRT.GetLocation()))
-                {
-                    selectedBuilding = buildingList.buildings[0]; // If not literally right next to it, place a Road.
-                }
-
-                dist = 10000; // because it's reused
-            }
-            s += "o"+ohno + ":";
+            // 3:
+            bool ontile = selectedBuilding.GetComponent<Building>().requiresResourceOnTile != ResourceTypeEnum.NONE;
+            vStart = ontile ? closestRT.GetLocation() : startingLocation;
+            if(ontile && !this.eligibleLocations.Contains(closestRT.GetLocation()))
+                selectedBuilding = buildingList.buildings[0]; // If not literally right next to it, place a Road.
+            
         }
         ///// \IF WE HAVE A PRIORITY\ /////
 
 
         ///// NO PRIORITY ///// (or if the above failed)
-        if (prioResourceType == ResourceTypeEnum.NONE || priorities[prioResourceType] > 0)
+        if (prioResourceType == ResourceTypeEnum.NONE || priorities[prioResourceType] > prioCutoffPoint)
         {
-            s += "2:";
-            //Debug.Log("going for random.");
             // Select random building
             // TODO: Make it less random, maybe have upgrade buildings here?
             List<GameObject> eligibleBuildings = new List<GameObject>();
@@ -308,33 +210,16 @@ public class AICityPlayer : CityPlayer
             }
             if(eligibleBuildings.Count != 0) selectedBuilding = eligibleBuildings[(int) (UnityEngine.Random.value * eligibleBuildings.Count-1)];// -1)+1 to stop it being a Road
             else{
-                Debug.Log("No eligable buildings?");
+                Debug.Log("No eligable buildings? Aborting.");
+                return (null, null);
             }
 
             vStart = startingLocation;
         }
         //// \NO PRIORITY\ /////
 
-        if(selectedBuilding == null) return (null, null);
-
-        ///// SELECT WHERE TO BUILD /////
-        HexTile selectedTile = null;
-        Building bldng = selectedBuilding.GetComponent<Building>();
-        vToFind = new Vector2();
-
-        // Closest tile to center/closestResourceTile
-        foreach(Vector2 v in eligibleLocations)
-        {
-            if(dist > (vStart - v).magnitude && hexMap.GetHexTile(v).resourceType == bldng.requiresResourceOnTile)
-            {
-                dist = (vStart - v).magnitude;
-                vToFind = v;
-            }
-        }
-
-        selectedTile = hexMap.GetHexTile(vToFind);
-        ///// \SELECT WHERE TO BUILD\ /////
-        //Debug.Log(s);
+        HexTile selectedTile = GetClosestEligableTile(vStart, selectedBuilding.GetComponent<Building>());
+       
         Debug.Log(d + ":: " + selectedBuilding.name);
 
         return (selectedTile, selectedBuilding);
@@ -357,6 +242,159 @@ public class AICityPlayer : CityPlayer
         }
 
         return success != null;
+    }
+
+    private Dictionary<ResourceTypeEnum, double> GetResourceGeneration()
+    {
+        // Loop over every building and add the amount they're generating.
+        Dictionary<ResourceTypeEnum, double> generating = new Dictionary<ResourceTypeEnum, double>();
+        foreach (ResourceTypeEnum rte in Enum.GetValues(typeof(ResourceTypeEnum)))
+            generating[rte] = 0;
+
+        foreach (Building b in ownedBuildings.Values)
+        {
+            foreach (ResourceTypeEnum rte in b.resourceConsumption.Keys)
+            {
+                generating[rte] += b.productivityRate * -b.resourceConsumption[rte];
+            }
+        }
+
+        return generating;
+    }
+
+    private (HexTile, double) FindNearestResourceNode(ResourceTypeEnum prioResourceType)
+    {
+        double dist = 10000;
+        HexTile closestRT = null;
+        foreach (Vector2 elv in eligibleLocations)
+        {
+            if (hexMap.GetHexTile(elv).resourceType == prioResourceType)
+            {
+                if ((elv - startingLocation).magnitude < dist)
+                {
+                    dist = (elv - startingLocation).magnitude;
+                    closestRT = hexMap.GetHexTile(elv);
+                }
+            }
+        }
+
+        if (closestRT == null)
+        {
+            List<HexTile> inrange = hexMap.GetTilesWithinRange((int)startingLocation.x, (int)startingLocation.y, (int)maxViewDistance);
+            inrange.RemoveAll(item => visitedLocations.Contains(item.GetLocation()));
+            foreach (HexTile ht in inrange)
+            {
+                if (ht.resourceType == prioResourceType)
+                {
+                    if ((ht.GetLocation() - startingLocation).magnitude < dist)
+                    {
+                        closestRT = ht;
+                        dist = (ht.GetLocation() - startingLocation).magnitude;
+                    }
+                }
+            }
+        }
+
+        return (closestRT, dist);
+    }
+
+    private Dictionary<ResourceTypeEnum, double> GetResourcePriorities(Dictionary<ResourceTypeEnum, double> generating)
+    {
+        // Algorithm to decide the priorities of the different resources, keeping in mind:
+        //  a) current amount
+        //  b) rate of generation
+        //  c) biases of what we think is most important
+
+        // TODO: Probably rewrite this and change the biases
+
+        //               none food wood stone coal metal electricity water
+        double[] bias = { 100, -2,  -3,   0,    1,   1,     1.5,      100 };
+        Dictionary<ResourceTypeEnum, double> priorities = new Dictionary<ResourceTypeEnum, double>();
+
+        int biasindex = 0;
+        foreach (ResourceTypeEnum rte in Enum.GetValues(typeof(ResourceTypeEnum)))
+        { // Lower = higher priority. Mix of how fast we're generating/losing vs how much we have vs how important it is
+            priorities[rte] = (generating.ContainsKey(rte) ? generating[rte] : 0) * 0.7f + (resources[rte] - 20) / 30 + bias[biasindex++];
+        }
+
+        return priorities;
+    }
+
+    private GameObject GetHighestRatedBuilding(ResourceTypeEnum prioResourceType, Dictionary<ResourceTypeEnum, double> priorities, double dist)
+    {
+        // Alg to rate all the buildings based on:
+        //  a) Which resource we consider most important
+        //  b) which other resources may also be important soon
+        //  c) whether we can use a nearby resource node
+        //  d) TODO: pollution values compared to willingness to pollute
+        // NB: Having to use the inits as the Dicts aren't yet initialised. >:c
+        // NB2: Higher rating = better
+        // Vars:
+        double buildScale = 0.5, distScale = 0.3, pollScale = 0.5;
+
+        GameObject selectedBuilding = null;
+        double rating, highest = 0;
+        Building bld;
+        foreach (GameObject go in buildingList.buildings)
+        {
+            rating = 0;
+            bld = go.GetComponent<Building>();
+
+            // If the building doesn't generate the resource, ignore it and continue on to the next building.
+            if ((!bld.resourceConsumptionInita.Contains(prioResourceType)) || bld.resourceConsumptionInitb[Array.IndexOf(bld.resourceConsumptionInita, prioResourceType)] > 0 || !affordable(bld)) continue;
+            if (!affordable(bld)) continue;
+
+            // For all resources w prio < 0 (with bias to higher prios) check whether this generates or consumes.
+            foreach (ResourceTypeEnum rte in bld.resourceConsumptionInita)
+            {
+                if (priorities[rte] < 0)
+                {   // -ve * -ve * -ve, if generating, so "subtracted" from rating.
+                    rating -= priorities[rte] * priorities[rte] * bld.resourceConsumptionInitb[Array.IndexOf(bld.resourceConsumptionInita, rte)];
+                }
+            }
+
+            // For all resources w prio < 0, check how much this consumes
+            foreach (ResourceTypeEnum rte in bld.buildCost.Keys)
+            {
+                if (priorities[rte] < 0)
+                {
+                    rating += priorities[rte] * bld.buildCost[rte] * buildScale;
+                }
+            }
+
+            if (bld.requiresResourceOnTile != ResourceTypeEnum.NONE) // If we have to go 20 tiles to place down this building, is it really better than the alternative(s)?
+            {
+                rating -= dist > 0 ? dist * distScale : 1000; // TODO: Test with different constants. The 1000 essentially means that it's guarenteed to fail if requires resource that cannot be found
+            }
+
+            // Factor in pollution vs how happy we are to pollute.
+            rating -= bld.pollutionPerSecond * pollutionAversion * pollScale;
+
+            if (highest < rating)
+            {
+                highest = rating;
+                selectedBuilding = go;
+            }
+        }
+        return selectedBuilding;
+    }
+
+    private HexTile GetClosestEligableTile(Vector2 vStart, Building bldng)
+    {
+        Vector2 vToFind = new Vector2();
+        double dist = 10000;
+
+        // Closest tile to center/closestResourceTile
+        foreach (Vector2 v in eligibleLocations)
+        {
+            if (dist > (vStart - v).magnitude && hexMap.GetHexTile(v).resourceType == bldng.requiresResourceOnTile)
+            {
+                dist = (vStart - v).magnitude;
+                vToFind = v;
+            }
+        }
+
+        return hexMap.GetHexTile(vToFind);
     }
 
     private bool affordable(Building building)
